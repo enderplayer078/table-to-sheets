@@ -98,39 +98,39 @@
 
       <!-- Quick Action Buttons for Consolidated Sheets -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
-        <button onclick="copyConsolidatedToSheets('sales_full')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
+        <button onclick="copyConsolidatedToSheets('sales_13_24_all')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-emerald-300">ยอดขาย 1-12 ต.ค.</span>
+            <span class="text-xs font-semibold text-emerald-300">ยอดขาย 13-24 ต.ค.</span>
             <i data-lucide="external-link" class="w-4 h-4 text-white/70 group-hover:text-white"></i>
           </div>
-          <p class="text-sm font-bold text-white mt-1">ครบ 21 สาขา</p>
+          <p class="text-sm font-bold text-white mt-1">ครบ 22 สาขา</p>
           <span class="text-xs text-emerald-200 mt-2 block">📋 คลิกเพื่อวางใน Google Sheets</span>
         </button>
 
-        <button onclick="copyConsolidatedToSheets('comm_full')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
+        <button onclick="copyConsolidatedToSheets('comm_13_24_all')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-emerald-300">ค่าคอม 1-12 ต.ค.</span>
+            <span class="text-xs font-semibold text-emerald-300">ค่าคอม 13-24 ต.ค.</span>
             <i data-lucide="external-link" class="w-4 h-4 text-white/70 group-hover:text-white"></i>
           </div>
-          <p class="text-sm font-bold text-white mt-1">ครบ 21 สาขา</p>
+          <p class="text-sm font-bold text-white mt-1">ครบ 22 สาขา</p>
           <span class="text-xs text-emerald-200 mt-2 block">📋 คลิกเพื่อวางใน Google Sheets</span>
         </button>
 
-        <button onclick="copyConsolidatedToSheets('sales_month_13')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
+        <button onclick="copyConsolidatedToSheets('sales_full_month')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-emerald-300">ยอดขายทั้งเดือน (1-24 ต.ค.)</span>
+            <span class="text-xs font-semibold text-emerald-300">สรุปยอดขายทั้งเดือน (1-24 ต.ค.)</span>
             <i data-lucide="external-link" class="w-4 h-4 text-white/70 group-hover:text-white"></i>
           </div>
-          <p class="text-sm font-bold text-white mt-1">สาขา 1-13 (24 วัน)</p>
+          <p class="text-sm font-bold text-white mt-1">ครบ 22 สาขา (24 วัน)</p>
           <span class="text-xs text-emerald-200 mt-2 block">📋 คลิกเพื่อวางใน Google Sheets</span>
         </button>
 
-        <button onclick="copyConsolidatedToSheets('comm_month_13')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
+        <button onclick="copyConsolidatedToSheets('comm_full_month')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-emerald-300">ค่าคอมทั้งเดือน (1-24 ต.ค.)</span>
+            <span class="text-xs font-semibold text-emerald-300">สรุปค่าคอมทั้งเดือน (1-24 ต.ค.)</span>
             <i data-lucide="external-link" class="w-4 h-4 text-white/70 group-hover:text-white"></i>
           </div>
-          <p class="text-sm font-bold text-white mt-1">สาขา 1-13 (24 วัน)</p>
+          <p class="text-sm font-bold text-white mt-1">ครบ 22 สาขา (24 วัน)</p>
           <span class="text-xs text-emerald-200 mt-2 block">📋 คลิกเพื่อวางใน Google Sheets</span>
         </button>
       </div>
@@ -353,7 +353,42 @@
           "18.โลตัสบ้านไผ่": ["-", "-", 100, 400, "-", "-", "-", "-", "-", "-", "-", "-"],
           "19.จัตุรัสชัยภูมิ": [100, 350, 50, 50, 50, 50, 50, "-", 400, 400, "-", 50],
           "20.โลตัสกาฬสินธุ์ (ร้านใน)": ["-", "-", "-", "-", "-", "-", 350, "-", "-", "-", "-", "-"],
-          "21.โลตัสพลัส อุดร": ["-", "-", "OPEN", "-", "OFF", "OFF", "-", "-", "-", "-", "-", "-"]
+          "21.โลตัสพลัส อุดร": ["-", "-", "OPEN", "-", "OFF", "OFF", "-", "-", "-", "-", "-", "-"],
+          "22.วาปีปทุม": ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
+        }
+      },
+      sales_13_24_p2: {
+        title: "ยอดขาย วันที่ 13-24 ตุลาคม 2569 (สาขา 14-22)",
+        type: "ยอดขาย",
+        startD: 13, endD: 24,
+        writtenCols: [30730, 24700, 31935, 32060, 33710, 37640, 35560, 28710, 24950, 29990, 39860, 36210],
+        rows: {
+          "14.โลตัสกาฬสินธุ์": [7670, 5430, 6620, 7540, 6560, 7410, 7040, 7150, 6650, 7100, 7220, 8760],
+          "15.โลตัสบัวขาว": [5310, 4760, 8455, 6420, 7040, 7020, 6110, 3190, "OFF", 3300, 8320, 6170],
+          "16.โลตัสโพนทอง": [5000, 3750, 4700, 4810, 5340, 5880, 6930, 4810, 4100, 4380, 6140, 3910],
+          "17.ไทยวัสดุกาฬสินธุ์": [2200, 1930, 1900, 1920, 2490, 2010, 2070, 2850, 1840, 2270, "OFF", 1930],
+          "18.โลตัสบ้านไผ่": [2210, 1150, 2920, 2240, 4250, 4660, 2830, 2310, 2490, 3010, 2720, 3280],
+          "19.จัตุรัสชัยภูมิ": [4530, 4000, 3160, 5380, 3750, 3420, 4000, 3430, 3410, 4540, 4440, 5280],
+          "20.โลตัสกาฬสินธุ์ (ร้านใน)": [570, 850, 790, 730, 700, 740, 940, 440, 1220, 600, 4920, 1270],
+          "21.โลตัสพลัส อุดร": [3240, 2830, 3390, 3020, 3580, 3340, 3410, 2420, 3650, 2550, 3430, 2970],
+          "22.วาปีปทุม": ["-", "-", "-", "-", "-", 3160, 2230, 2110, 1590, 2240, 2670, 2640]
+        }
+      },
+      comm_13_24_p2: {
+        title: "ค่าคอม วันที่ 13-24 ตุลาคม 2569 (สาขา 14-22)",
+        type: "ค่าคอม",
+        startD: 13, endD: 24,
+        writtenCols: [800, 200, 450, 1200, 1200, 1250, 550, 250, 200, 750, 650, 850],
+        rows: {
+          "14.โลตัสกาฬสินธุ์": [200, 100, 250, 550, 500, 550, 200, 200, 150, 300, 200, 600],
+          "15.โลตัสบัวขาว": [450, 50, 150, 150, 200, 200, 150, "-", "OFF", "-", 250, 150],
+          "16.โลตัสโพนทอง": [100, "-", 50, 50, 100, 100, 150, 50, 50, 50, 150, "-"],
+          "17.ไทยวัสดุกาฬสินธุ์": ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "OFF", "-"],
+          "18.โลตัสบ้านไผ่": ["-", "-", "-", 350, 400, 400, "-", "-", "-", "-", "-", "-"],
+          "19.จัตุรัสชัยภูมิ": [50, 50, "-", 100, "-", "-", 50, "-", "-", 400, 50, 100],
+          "20.โลตัสกาฬสินธุ์ (ร้านใน)": ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+          "21.โลตัสพลัส อุดร": ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+          "22.วาปีปทุม": ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
         }
       }
     };
@@ -726,15 +761,17 @@
       }
     }
 
-    // Seed Sample October Data
+    // Seed Sample October Data (All 8 Tables across 22 Branches)
     async function seedSampleOctober() {
       setCloudStatus('syncing', 'กำลังโหลดตัวอย่าง...');
-      const p1 = createTableObj("ค่าคอม วันที่ 13-24 ตุลาคม 2569", "ค่าคอม", 13, 24, SAMPLE_OCTOBER.comm_13_24_p1.rows, SAMPLE_OCTOBER.comm_13_24_p1.writtenCols);
-      const p2 = createTableObj("ยอดขาย วันที่ 13-24 ตุลาคม 2569", "ยอดขาย", 13, 24, SAMPLE_OCTOBER.sales_13_24_p1.rows, SAMPLE_OCTOBER.sales_13_24_p1.writtenCols);
+      const p1 = createTableObj("ค่าคอม วันที่ 13-24 ตุลาคม 2569 (สาขา 1-13)", "ค่าคอม", 13, 24, SAMPLE_OCTOBER.comm_13_24_p1.rows, SAMPLE_OCTOBER.comm_13_24_p1.writtenCols);
+      const p2 = createTableObj("ยอดขาย วันที่ 13-24 ตุลาคม 2569 (สาขา 1-13)", "ยอดขาย", 13, 24, SAMPLE_OCTOBER.sales_13_24_p1.rows, SAMPLE_OCTOBER.sales_13_24_p1.writtenCols);
       const p3 = createTableObj("ยอดขาย วันที่ 1-12 ตุลาคม 2569 (สาขา 1-13)", "ยอดขาย", 1, 12, SAMPLE_OCTOBER.sales_1_12_p1.rows, SAMPLE_OCTOBER.sales_1_12_p1.writtenCols);
-      const p4 = createTableObj("ยอดขาย วันที่ 1-12 ตุลาคม 2569 (สาขา 14-21)", "ยอดขาย", 1, 12, SAMPLE_OCTOBER.sales_1_12_p2.rows, SAMPLE_OCTOBER.sales_1_12_p2.writtenCols);
+      const p4 = createTableObj("ยอดขาย วันที่ 1-12 ตุลาคม 2569 (สาขา 14-22)", "ยอดขาย", 1, 12, SAMPLE_OCTOBER.sales_1_12_p2.rows, SAMPLE_OCTOBER.sales_1_12_p2.writtenCols);
       const p5 = createTableObj("ค่าคอม วันที่ 1-12 ตุลาคม 2569 (สาขา 1-13)", "ค่าคอม", 1, 12, SAMPLE_OCTOBER.comm_1_12_p1.rows, SAMPLE_OCTOBER.comm_1_12_p1.writtenCols);
-      const p6 = createTableObj("ค่าคอม วันที่ 1-12 ตุลาคม 2569 (สาขา 14-21)", "ค่าคอม", 1, 12, SAMPLE_OCTOBER.comm_1_12_p2.rows, SAMPLE_OCTOBER.comm_1_12_p2.writtenCols);
+      const p6 = createTableObj("ค่าคอม วันที่ 1-12 ตุลาคม 2569 (สาขา 14-22)", "ค่าคอม", 1, 12, SAMPLE_OCTOBER.comm_1_12_p2.rows, SAMPLE_OCTOBER.comm_1_12_p2.writtenCols);
+      const p7 = createTableObj("ยอดขาย วันที่ 13-24 ตุลาคม 2569 (สาขา 14-22)", "ยอดขาย", 13, 24, SAMPLE_OCTOBER.sales_13_24_p2.rows, SAMPLE_OCTOBER.sales_13_24_p2.writtenCols);
+      const p8 = createTableObj("ค่าคอม วันที่ 13-24 ตุลาคม 2569 (สาขา 14-22)", "ค่าคอม", 13, 24, SAMPLE_OCTOBER.comm_13_24_p2.rows, SAMPLE_OCTOBER.comm_13_24_p2.writtenCols);
 
       currentTables["IMG_20261110_122608.jpg"] = p1;
       currentTables["IMG_20261110_122620.jpg"] = p2;
@@ -742,10 +779,12 @@
       currentTables["IMG_20261110_122646.jpg"] = p4;
       currentTables["IMG_20261110_122657.jpg"] = p5;
       currentTables["IMG_20261110_122710.jpg"] = p6;
+      currentTables["ยอดขาย_13-24_ตค_สาขา14-22.jpg"] = p7;
+      currentTables["ค่าคอม_13-24_ตค_สาขา14-22.jpg"] = p8;
 
       saveLocalCache();
       renderAll();
-      showToast("โหลดข้อมูลตัวอย่างเดือน ต.ค. ขึ้นระบบคลาวด์แล้ว!", "sparkles");
+      showToast("โหลดข้อมูลตัวอย่างเดือน ต.ค. (ครบ 22 สาขา) ขึ้นระบบคลาวด์แล้ว!", "sparkles");
       await syncToCloud();
     }
 
@@ -1024,30 +1063,36 @@ Return valid JSON:
       }, 350);
     }
 
-    // Consolidated Sheets Export
+    // Consolidated Sheets Export (Full 22 Branches)
     async function copyConsolidatedToSheets(type) {
       let tsv = "";
       let titleName = "";
-      if (type === 'sales_full') {
-        tsv = buildConsolidatedTSV(1, 12, { ...SAMPLE_OCTOBER.sales_1_12_p1.rows, ...SAMPLE_OCTOBER.sales_1_12_p2.rows });
-        titleName = "ยอดขาย 1-12 ต.ค. (ครบ 21 สาขา)";
-      } else if (type === 'comm_full') {
-        tsv = buildConsolidatedTSV(1, 12, { ...SAMPLE_OCTOBER.comm_1_12_p1.rows, ...SAMPLE_OCTOBER.comm_1_12_p2.rows });
-        titleName = "ค่าคอม 1-12 ต.ค. (ครบ 21 สาขา)";
-      } else if (type === 'sales_month_13') {
+      if (type === 'sales_13_24_all') {
+        const merged = { ...SAMPLE_OCTOBER.sales_13_24_p1.rows, ...SAMPLE_OCTOBER.sales_13_24_p2.rows };
+        tsv = buildConsolidatedTSV(13, 24, merged);
+        titleName = "ยอดขาย 13-24 ต.ค. (ครบ 22 สาขา)";
+      } else if (type === 'comm_13_24_all') {
+        const merged = { ...SAMPLE_OCTOBER.comm_13_24_p1.rows, ...SAMPLE_OCTOBER.comm_13_24_p2.rows };
+        tsv = buildConsolidatedTSV(13, 24, merged);
+        titleName = "ค่าคอม 13-24 ต.ค. (ครบ 22 สาขา)";
+      } else if (type === 'sales_full_month') {
         const merged = {};
-        Object.keys(SAMPLE_OCTOBER.sales_1_12_p1.rows).forEach(k => {
-          merged[k] = [...SAMPLE_OCTOBER.sales_1_12_p1.rows[k], ...SAMPLE_OCTOBER.sales_13_24_p1.rows[k]];
+        KNOWN_BRANCHES.forEach(b => {
+          const p1 = (SAMPLE_OCTOBER.sales_1_12_p1.rows[b] || SAMPLE_OCTOBER.sales_1_12_p2.rows[b] || Array(12).fill("-"));
+          const p2 = (SAMPLE_OCTOBER.sales_13_24_p1.rows[b] || SAMPLE_OCTOBER.sales_13_24_p2.rows[b] || Array(12).fill("-"));
+          merged[b] = [...p1, ...p2];
         });
         tsv = buildConsolidatedTSV(1, 24, merged);
-        titleName = "ยอดขาย 1-24 ต.ค. (สาขา 1-13)";
-      } else if (type === 'comm_month_13') {
+        titleName = "สรุปยอดขายทั้งเดือน 1-24 ต.ค. (ครบ 22 สาขา)";
+      } else if (type === 'comm_full_month') {
         const merged = {};
-        Object.keys(SAMPLE_OCTOBER.comm_1_12_p1.rows).forEach(k => {
-          merged[k] = [...SAMPLE_OCTOBER.comm_1_12_p1.rows[k], ...SAMPLE_OCTOBER.comm_13_24_p1.rows[k]];
+        KNOWN_BRANCHES.forEach(b => {
+          const p1 = (SAMPLE_OCTOBER.comm_1_12_p1.rows[b] || SAMPLE_OCTOBER.comm_1_12_p2.rows[b] || Array(12).fill("-"));
+          const p2 = (SAMPLE_OCTOBER.comm_13_24_p1.rows[b] || SAMPLE_OCTOBER.comm_13_24_p2.rows[b] || Array(12).fill("-"));
+          merged[b] = [...p1, ...p2];
         });
         tsv = buildConsolidatedTSV(1, 24, merged);
-        titleName = "ค่าคอม 1-24 ต.ค. (สาขา 1-13)";
+        titleName = "สรุปค่าคอมทั้งเดือน 1-24 ต.ค. (ครบ 22 สาขา)";
       }
 
       await navigator.clipboard.writeText(tsv);
