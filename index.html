@@ -19,7 +19,7 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen pb-16">
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-24">
 
   <!-- Top Navbar (Clean, Minimal & Cloud-Ready) -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
@@ -37,7 +37,7 @@
               <span id="cloud-status-text">ซิงก์คลาวด์แล้ว</span>
             </span>
           </div>
-          <p class="text-xs text-slate-500">แปลงภาพตารางบัญชีเป็น Google Sheets พร้อมใช้งานทันที</p>
+          <p class="text-xs text-slate-500">แปลงภาพตารางบัญชีเป็น Google Sheets และ Excel พร้อมใช้งานทันที</p>
         </div>
       </div>
 
@@ -83,61 +83,131 @@
     </div>
 
     <!-- Consolidated Sheets Banner (Auto-Consolidated) -->
-    <div id="consolidated-banner" class="hidden bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 rounded-2xl p-6 text-white shadow-md space-y-4">
+    <div id="consolidated-banner" class="hidden bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 rounded-2xl p-6 text-white shadow-md space-y-5">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 mb-2 border border-emerald-400/20">
             📊 ตารางรวมสำเร็จรูป
           </span>
-          <h2 class="text-xl font-bold">สรุปตารางครบ 21 สาขา และสรุปยอดทั้งเดือน</h2>
+          <h2 class="text-xl font-bold">สรุปตารางครบ 22 สาขา และสรุปยอดทั้งเดือน</h2>
           <p class="text-sm text-emerald-100/90 max-w-2xl mt-1">
-            คลิกปุ่มเพื่อคัดลอกและเปิด Google Sheets ได้ทันทีใน 1 วินาที!
+            คลิกปุ่มเพื่อแสดงตารางรวมบนเว็บ เปิดใน Google Sheets หรือดาวน์โหลดไฟล์ Excel ได้ทันที!
           </p>
         </div>
+
+        <!-- Master Full Workbook Download -->
+        <button onclick="downloadAllSheetsExcel()" class="inline-flex items-center space-x-2 px-4 py-2.5 bg-white text-emerald-900 hover:bg-emerald-50 font-bold rounded-xl text-xs shadow-md transition shrink-0">
+          <i data-lucide="file-down" class="w-4 h-4 text-emerald-700"></i>
+          <span>📥 ดาวน์โหลด Excel รวมครบทุกชีต (22 สาขา)</span>
+        </button>
       </div>
 
-      <!-- Quick Action Buttons for Consolidated Sheets -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
-        <button onclick="copyConsolidatedToSheets('sales_13_24_all')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
-          <div class="flex items-center justify-between">
+      <!-- Quick Action Cards for Consolidated Sheets -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
+        <!-- 1. ยอดขาย 13-24 ต.ค. -->
+        <div class="bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex flex-col justify-between transition space-y-3">
+          <div>
             <span class="text-xs font-semibold text-emerald-300">ยอดขาย 13-24 ต.ค.</span>
-            <i data-lucide="external-link" class="w-4 h-4 text-white/70 group-hover:text-white"></i>
+            <h4 class="text-sm font-bold text-white mt-0.5">ครบ 22 สาขา (12 วัน)</h4>
+            <p class="text-[11px] text-emerald-200/80 mt-0.5">รวม 1,659,695 บาท</p>
           </div>
-          <p class="text-sm font-bold text-white mt-1">ครบ 22 สาขา</p>
-          <span class="text-xs text-emerald-200 mt-2 block">📋 คลิกเพื่อวางใน Google Sheets</span>
-        </button>
+          <div class="space-y-1.5 pt-2 border-t border-white/10">
+            <button onclick="renderConsolidatedOnWeb('sales_13_24_all')" class="w-full py-1.5 px-2.5 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold rounded-lg text-xs flex items-center justify-center space-x-1.5 transition shadow-sm">
+              <i data-lucide="combine" class="w-3.5 h-3.5"></i>
+              <span>👁️ รวมและแสดงบนเว็บ</span>
+            </button>
+            <div class="flex space-x-1.5">
+              <button onclick="copyConsolidatedToSheets('sales_13_24_all')" class="w-1/2 py-1 px-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-[11px] font-semibold flex items-center justify-center space-x-1 transition" title="เปิดใน Google Sheets">
+                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                <span>Sheets</span>
+              </button>
+              <button onclick="downloadConsolidatedExcel('sales_13_24_all')" class="w-1/2 py-1 px-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-[11px] font-semibold flex items-center justify-center space-x-1 transition" title="ดาวน์โหลด Excel">
+                <i data-lucide="download" class="w-3 h-3"></i>
+                <span>Excel</span>
+              </button>
+            </div>
+          </div>
+        </div>
 
-        <button onclick="copyConsolidatedToSheets('comm_13_24_all')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
-          <div class="flex items-center justify-between">
+        <!-- 2. ค่าคอม 13-24 ต.ค. -->
+        <div class="bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex flex-col justify-between transition space-y-3">
+          <div>
             <span class="text-xs font-semibold text-emerald-300">ค่าคอม 13-24 ต.ค.</span>
-            <i data-lucide="external-link" class="w-4 h-4 text-white/70 group-hover:text-white"></i>
+            <h4 class="text-sm font-bold text-white mt-0.5">ครบ 22 สาขา (12 วัน)</h4>
+            <p class="text-[11px] text-emerald-200/80 mt-0.5">รวม 51,300 บาท</p>
           </div>
-          <p class="text-sm font-bold text-white mt-1">ครบ 22 สาขา</p>
-          <span class="text-xs text-emerald-200 mt-2 block">📋 คลิกเพื่อวางใน Google Sheets</span>
-        </button>
+          <div class="space-y-1.5 pt-2 border-t border-white/10">
+            <button onclick="renderConsolidatedOnWeb('comm_13_24_all')" class="w-full py-1.5 px-2.5 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold rounded-lg text-xs flex items-center justify-center space-x-1.5 transition shadow-sm">
+              <i data-lucide="combine" class="w-3.5 h-3.5"></i>
+              <span>👁️ รวมและแสดงบนเว็บ</span>
+            </button>
+            <div class="flex space-x-1.5">
+              <button onclick="copyConsolidatedToSheets('comm_13_24_all')" class="w-1/2 py-1 px-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-[11px] font-semibold flex items-center justify-center space-x-1 transition" title="เปิดใน Google Sheets">
+                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                <span>Sheets</span>
+              </button>
+              <button onclick="downloadConsolidatedExcel('comm_13_24_all')" class="w-1/2 py-1 px-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-[11px] font-semibold flex items-center justify-center space-x-1 transition" title="ดาวน์โหลด Excel">
+                <i data-lucide="download" class="w-3 h-3"></i>
+                <span>Excel</span>
+              </button>
+            </div>
+          </div>
+        </div>
 
-        <button onclick="copyConsolidatedToSheets('sales_full_month')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-emerald-300">สรุปยอดขายทั้งเดือน (1-24 ต.ค.)</span>
-            <i data-lucide="external-link" class="w-4 h-4 text-white/70 group-hover:text-white"></i>
+        <!-- 3. ยอดขายทั้งเดือน 1-24 ต.ค. -->
+        <div class="bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex flex-col justify-between transition space-y-3">
+          <div>
+            <span class="text-xs font-semibold text-emerald-300">สรุปยอดขายทั้งเดือน</span>
+            <h4 class="text-sm font-bold text-white mt-0.5">ครบ 22 สาขา (24 วัน)</h4>
+            <p class="text-[11px] text-emerald-200/80 mt-0.5">วันที่ 1-24 ต.ค. ครบถ้วน</p>
           </div>
-          <p class="text-sm font-bold text-white mt-1">ครบ 22 สาขา (24 วัน)</p>
-          <span class="text-xs text-emerald-200 mt-2 block">📋 คลิกเพื่อวางใน Google Sheets</span>
-        </button>
+          <div class="space-y-1.5 pt-2 border-t border-white/10">
+            <button onclick="renderConsolidatedOnWeb('sales_full_month')" class="w-full py-1.5 px-2.5 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold rounded-lg text-xs flex items-center justify-center space-x-1.5 transition shadow-sm">
+              <i data-lucide="combine" class="w-3.5 h-3.5"></i>
+              <span>👁️ รวมและแสดงบนเว็บ</span>
+            </button>
+            <div class="flex space-x-1.5">
+              <button onclick="copyConsolidatedToSheets('sales_full_month')" class="w-1/2 py-1 px-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-[11px] font-semibold flex items-center justify-center space-x-1 transition" title="เปิดใน Google Sheets">
+                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                <span>Sheets</span>
+              </button>
+              <button onclick="downloadConsolidatedExcel('sales_full_month')" class="w-1/2 py-1 px-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-[11px] font-semibold flex items-center justify-center space-x-1 transition" title="ดาวน์โหลด Excel">
+                <i data-lucide="download" class="w-3 h-3"></i>
+                <span>Excel</span>
+              </button>
+            </div>
+          </div>
+        </div>
 
-        <button onclick="copyConsolidatedToSheets('comm_full_month')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 text-left transition group">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-emerald-300">สรุปค่าคอมทั้งเดือน (1-24 ต.ค.)</span>
-            <i data-lucide="external-link" class="w-4 h-4 text-white/70 group-hover:text-white"></i>
+        <!-- 4. ค่าคอมทั้งเดือน 1-24 ต.ค. -->
+        <div class="bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex flex-col justify-between transition space-y-3">
+          <div>
+            <span class="text-xs font-semibold text-emerald-300">สรุปค่าคอมทั้งเดือน</span>
+            <h4 class="text-sm font-bold text-white mt-0.5">ครบ 22 สาขา (24 วัน)</h4>
+            <p class="text-[11px] text-emerald-200/80 mt-0.5">วันที่ 1-24 ต.ค. ครบถ้วน</p>
           </div>
-          <p class="text-sm font-bold text-white mt-1">ครบ 22 สาขา (24 วัน)</p>
-          <span class="text-xs text-emerald-200 mt-2 block">📋 คลิกเพื่อวางใน Google Sheets</span>
-        </button>
+          <div class="space-y-1.5 pt-2 border-t border-white/10">
+            <button onclick="renderConsolidatedOnWeb('comm_full_month')" class="w-full py-1.5 px-2.5 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold rounded-lg text-xs flex items-center justify-center space-x-1.5 transition shadow-sm">
+              <i data-lucide="combine" class="w-3.5 h-3.5"></i>
+              <span>👁️ รวมและแสดงบนเว็บ</span>
+            </button>
+            <div class="flex space-x-1.5">
+              <button onclick="copyConsolidatedToSheets('comm_full_month')" class="w-1/2 py-1 px-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-[11px] font-semibold flex items-center justify-center space-x-1 transition" title="เปิดใน Google Sheets">
+                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                <span>Sheets</span>
+              </button>
+              <button onclick="downloadConsolidatedExcel('comm_full_month')" class="w-1/2 py-1 px-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-[11px] font-semibold flex items-center justify-center space-x-1 transition" title="ดาวน์โหลด Excel">
+                <i data-lucide="download" class="w-3 h-3"></i>
+                <span>Excel</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Filter Tabs & Actions -->
-    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-2">
       <div class="flex space-x-2" id="filter-tabs">
         <button onclick="filterTables('all')" class="tab-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-900 text-white">ตารางทั้งหมด (<span id="count-all">0</span>)</button>
         <button onclick="filterTables('sales')" class="tab-btn px-4 py-2 rounded-xl text-sm font-medium bg-white text-slate-600 hover:bg-slate-100">เฉพาะยอดขาย (<span id="count-sales">0</span>)</button>
@@ -146,7 +216,7 @@
       <div class="flex items-center space-x-3 text-xs">
         <button onclick="seedSampleOctober()" class="text-emerald-600 hover:text-emerald-800 font-semibold flex items-center space-x-1 transition">
           <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-          <span>โหลดตัวอย่างเดือน ต.ค.</span>
+          <span>โหลดตัวอย่างเดือน ต.ค. (ครบ 22 สาขา)</span>
         </button>
         <span class="text-slate-300">|</span>
         <button onclick="clearAllTables()" class="text-rose-500 hover:text-rose-700 font-medium flex items-center space-x-1 transition">
@@ -162,6 +232,83 @@
     </div>
 
   </main>
+
+  <!-- Floating Bottom Bar for Table Merge -->
+  <div id="floating-merge-bar" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-slate-900/95 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center space-x-4 z-40 transition-all duration-300 translate-y-32 opacity-0 pointer-events-none border border-slate-700">
+    <div class="flex items-center space-x-2">
+      <span id="selected-tables-count" class="w-6 h-6 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center font-bold text-xs">0</span>
+      <span class="text-xs font-semibold text-slate-200">ตารางที่เลือก</span>
+    </div>
+    <div class="h-4 w-px bg-slate-700"></div>
+    <button onclick="mergeSelectedTablesOnWeb()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-bold shadow-md transition flex items-center space-x-1.5">
+      <i data-lucide="combine" class="w-4 h-4"></i>
+      <span>🧩 รวมตารางที่เลือกแสดงบนเว็บ</span>
+    </button>
+    <button onclick="clearSelectedTables()" class="p-1.5 text-slate-400 hover:text-white rounded-lg transition" title="ยกเลิกการเลือก">
+      <i data-lucide="x" class="w-4 h-4"></i>
+    </button>
+  </div>
+
+  <!-- Google Sheets Paste Guide Modal -->
+  <div id="modal-sheets-guide" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl w-full max-w-md p-6 sm:p-7 shadow-2xl space-y-5 text-center">
+      <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner">
+        <i data-lucide="file-spreadsheet" class="w-7 h-7"></i>
+      </div>
+      <div>
+        <span class="inline-flex items-center space-x-1 px-3 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 mb-2">
+          <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+          <span>คัดลอกข้อมูลตารางเรียบร้อยแล้ว</span>
+        </span>
+        <h3 class="text-lg font-bold text-slate-900">วิธีวางตารางลง Google Sheets</h3>
+        <p class="text-xs text-slate-500 mt-1" id="sheets-guide-title">
+          Google Sheets หน้าใหม่ถูกเปิดขึ้นมาในอีกแท็บหนึ่งแล้ว
+        </p>
+      </div>
+
+      <!-- Step by step visual instructions -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-left space-y-3 text-xs text-slate-700">
+        <div class="flex items-start space-x-3">
+          <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">1</span>
+          <p class="pt-0.5">สลับไปที่แท็บ <strong>Google Sheets</strong> ที่เพิ่งเปิดขึ้นมาใหม่</p>
+        </div>
+        <div class="flex items-start space-x-3">
+          <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">2</span>
+          <p class="pt-0.5">คลิกเลือกช่องเซลล์มุมซ้ายบน <strong>A1</strong> เพียงครั้งเดียว</p>
+        </div>
+        <div class="flex items-start space-x-3">
+          <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">3</span>
+          <div>
+            <p class="pt-0.5 font-bold text-slate-900">กดแป้นพิมพ์เพื่อวางข้อมูลทันที:</p>
+            <div class="flex items-center space-x-2 mt-1.5">
+              <span class="px-2 py-1 bg-white border border-slate-300 rounded-lg font-mono font-bold text-slate-900 shadow-sm">⌘ Cmd + V</span>
+              <span class="text-slate-500 text-[11px]">(บน Mac)</span>
+              <span class="text-slate-300">หรือ</span>
+              <span class="px-2 py-1 bg-white border border-slate-300 rounded-lg font-mono font-bold text-slate-900 shadow-sm">Ctrl + V</span>
+            </div>
+            <p class="text-[11px] text-emerald-700 font-medium mt-1">ตาราง สาขา วันที่ และตัวเลขทั้งหมดจะลงช่องอัตโนมัติ!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Action Buttons -->
+      <div class="space-y-2 pt-1">
+        <button onclick="reCopyCurrentTSV()" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center justify-center space-x-2">
+          <i data-lucide="copy" class="w-4 h-4"></i>
+          <span>คัดลอกข้อมูลอีกครั้ง</span>
+        </button>
+        <div class="flex space-x-2">
+          <button onclick="downloadCurrentModalCSV()" class="w-1/2 py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center space-x-1.5" title="ดาวน์โหลดเป็นไฟล์ CSV เพื่อนำเข้าใน Google Sheets">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>โหลดไฟล์ CSV</span>
+          </button>
+          <button onclick="closeSheetsGuideModal()" class="w-1/2 py-2 px-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-medium transition">
+            เข้าใจแล้ว ปิดหน้าต่าง
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Settings Modal (Keys & Config) -->
   <div id="modal-settings" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden">
@@ -215,7 +362,7 @@
   </div>
 
   <script>
-    // 21 Known Branches Master Template
+    // 22 Known Branches Master Template
     const KNOWN_BRANCHES = [
       "1.บิ๊กซีเลยประตู 2", "2.บิ๊กซีเลยประตู 3", "3.บิ๊กซีวังสะพุง", "4.ไทยวัสดุเลย",
       "5.โลตัสชุมแพ", "6.โลตัสแก้งคร้อ", "7.โลตัสชัยภูมิ", "8.บิ๊กซีบ้านไผ่",
@@ -237,11 +384,17 @@
 
     let currentProvider = "gemini";
     let currentTables = {}; // Master unified state for all tables
+    let selectedTableKeys = new Set(); // For table merging selection
+
+    // Modal state
+    let currentModalTSV = "";
+    let currentModalTitle = "";
+    let currentModalTableObj = null;
 
     // Sample October Accounting Data (Ready to seed on-demand)
     const SAMPLE_OCTOBER = {
       comm_13_24_p1: {
-        title: "ค่าคอม วันที่ 13-24 ตุลาคม 2569",
+        title: "ค่าคอม วันที่ 13-24 ตุลาคม 2569 (สาขา 1-13)",
         type: "ค่าคอม",
         startD: 13, endD: 24,
         writtenCols: [3650, 2950, 3200, 3150, 5050, 3700, 3150, 4300, 2800, 3650, 3400, 3550],
@@ -262,7 +415,7 @@
         }
       },
       sales_13_24_p1: {
-        title: "ยอดขาย วันที่ 13-24 ตุลาคม 2569",
+        title: "ยอดขาย วันที่ 13-24 ตุลาคม 2569 (สาขา 1-13)",
         type: "ยอดขาย",
         startD: 13, endD: 24,
         writtenCols: [96855, 72740, 136285, 84030, 109560, 90040, 121815, 96490, 77880, 182075, 105490, 100380],
@@ -304,7 +457,7 @@
         }
       },
       sales_1_12_p2: {
-        title: "ยอดขาย วันที่ 1-12 ตุลาคม 2569 (สาขา 14-21)",
+        title: "ยอดขาย วันที่ 1-12 ตุลาคม 2569 (สาขา 14-22)",
         type: "ยอดขาย",
         startD: 1, endD: 12,
         writtenCols: [null, null, null, 41090, null, null, null, null, null, null, null, null],
@@ -316,7 +469,8 @@
           "18.โลตัสบ้านไผ่": [2560, 3000, 5280, 4320, 1340, 2790, 1420, 1360, 3720, 2660, 1980, 2890],
           "19.จัตุรัสชัยภูมิ": [5380, 3930, 4620, 4020, 4410, 4400, 4110, 3010, 4320, 4900, 2940, 4140],
           "20.โลตัสกาฬสินธุ์ (ร้านใน)": [1120, 1440, 1630, 1360, 1230, 1120, 710, 1810, 800, 950, 1170, 1300],
-          "21.โลตัสพลัส อุดร": ["-", "-", "OPEN", 4660, "OFF", "OFF", 2180, 2520, 2980, 2330, 3240, 2560]
+          "21.โลตัสพลัส อุดร": ["-", "-", "OPEN", 4660, "OFF", "OFF", 2180, 2520, 2980, 2330, 3240, 2560],
+          "22.วาปีปทุม": ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
         }
       },
       comm_1_12_p1: {
@@ -341,7 +495,7 @@
         }
       },
       comm_1_12_p2: {
-        title: "ค่าคอม วันที่ 1-12 ตุลาคม 2569 (สาขา 14-21)",
+        title: "ค่าคอม วันที่ 1-12 ตุลาคม 2569 (สาขา 14-22)",
         type: "ค่าคอม",
         startD: 1, endD: 12,
         writtenCols: [null, null, null, 1450, null, null, null, null, null, null, null, null],
@@ -519,6 +673,7 @@
       updateCounts();
       updateConsolidatedBanner();
       renderTables(currentTables);
+      updateFloatingMergeBar();
     }
 
     function updateCounts() {
@@ -566,7 +721,7 @@
             <div class="pt-2">
               <button onclick="seedSampleOctober()" class="inline-flex items-center space-x-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-sm transition">
                 <i data-lucide="sparkles" class="w-4 h-4"></i>
-                <span>โหลดข้อมูลตัวอย่างเดือน ต.ค. (6 ตาราง)</span>
+                <span>โหลดข้อมูลตัวอย่างเดือน ต.ค. (ครบ 22 สาขา)</span>
               </button>
             </div>
           </div>
@@ -580,19 +735,26 @@
         const t = tables[key];
         const isSales = t.type === 'ยอดขาย';
         const card = document.createElement('div');
-        card.className = `table-card bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 ${isSales ? 'type-sales' : 'type-comm'}`;
+        card.className = `table-card bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 transition ${isSales ? 'type-sales' : 'type-comm'}`;
         card.id = `card-${key}`;
 
         const isVerified = t.verification && t.verification.is_perfect;
         const totalBranches = (t.rows || []).length;
         const startDay = t.date_columns ? t.date_columns[0] : '';
         const endDay = t.date_columns ? t.date_columns[t.date_columns.length - 1] : '';
+        const isChecked = selectedTableKeys.has(key);
 
         card.innerHTML = `
           <!-- Header -->
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-4">
             <div class="flex items-center space-x-3">
-              <div class="w-9 h-9 rounded-xl ${isSales ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'} flex items-center justify-center font-bold text-sm shadow-sm">
+              <!-- Selection Checkbox for Dynamic Merge -->
+              <label class="flex items-center space-x-1.5 cursor-pointer bg-slate-50 hover:bg-slate-100 px-2.5 py-1.5 rounded-xl border border-slate-200 transition" title="ติ๊กเพื่อรวมตารางนี้">
+                <input type="checkbox" value="${key}" ${isChecked ? 'checked' : ''} class="table-select-cb w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer" onchange="handleSelectionChange()">
+                <span class="text-xs font-semibold text-slate-700 select-none">เลือก</span>
+              </label>
+
+              <div class="w-8 h-8 rounded-xl ${isSales ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'} flex items-center justify-center font-bold text-xs shadow-sm">
                 #${idx + 1}
               </div>
               <div>
@@ -601,6 +763,12 @@
                   <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${isSales ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'}">
                     ${t.type}
                   </span>
+                  ${t.isMerged ? `
+                    <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 border border-purple-200 flex items-center space-x-1">
+                      <i data-lucide="combine" class="w-3 h-3"></i>
+                      <span>ตารางรวม</span>
+                    </span>
+                  ` : ''}
                   <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${isVerified ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
                     ${isVerified ? '✓ ผลรวมตรง 100%' : '⚠️ ตรวจสอบผลรวม'}
                   </span>
@@ -617,14 +785,19 @@
 
             <!-- Table Actions -->
             <div class="flex items-center space-x-2">
-              <button onclick="copyTableToSheets('${key}')" class="inline-flex items-center space-x-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition">
+              <button onclick="copyTableToSheets('${key}')" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition">
                 <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
-                <span>📋 เปิดใน Google Sheets</span>
+                <span>📋 เปิดใน Sheets</span>
               </button>
 
-              <button onclick="downloadClientExcel('${key}')" class="inline-flex items-center space-x-1 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition">
+              <button onclick="downloadClientExcel('${key}')" class="inline-flex items-center space-x-1 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition" title="ดาวน์โหลดเป็นไฟล์ Excel (.xlsx)">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>Excel</span>
+              </button>
+
+              <button onclick="downloadClientCSV('${key}')" class="inline-flex items-center space-x-1 px-2 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-medium transition" title="ดาวน์โหลดไฟล์ CSV สำหรับนำเข้า Sheets">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>CSV</span>
               </button>
 
               <button onclick="deleteTable('${key}')" title="ลบตารางนี้" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg transition hover:bg-slate-100">
@@ -742,6 +915,7 @@
     // Delete Table (Local & Cloud)
     async function deleteTable(key) {
       if (confirm(`ต้องการลบตาราง ${key} หรือไม่? (ข้อมูลจะถูกลบออกจากระบบคลาวด์)`)) {
+        selectedTableKeys.delete(key);
         delete currentTables[key];
         saveLocalCache();
         renderAll();
@@ -750,18 +924,213 @@
       }
     }
 
-    // Clear All Tables
-    async function clearAllTables() {
-      if (confirm("ต้องการล้างตารางทั้งหมดในระบบคลาวด์และในเครื่องใช่หรือไม่?")) {
+    function clearAllTables() {
+      if (confirm("ต้องการลบข้อมูลตารางทั้งหมดในระบบคลาวด์หรือไม่?")) {
+        selectedTableKeys.clear();
         currentTables = {};
         saveLocalCache();
         renderAll();
-        showToast("ล้างตารางทั้งหมดเรียบร้อยแล้ว", "trash-2");
-        await syncToCloud();
+        showToast("ล้างข้อมูลทั้งหมดแล้ว", "trash");
+        syncToCloud();
       }
     }
 
-    // Seed Sample October Data (All 8 Tables across 22 Branches)
+    // Dynamic Multi-Table Selection for Merging
+    function handleSelectionChange() {
+      selectedTableKeys.clear();
+      document.querySelectorAll('.table-select-cb:checked').forEach(cb => {
+        selectedTableKeys.add(cb.value);
+      });
+      updateFloatingMergeBar();
+    }
+
+    function updateFloatingMergeBar() {
+      const bar = document.getElementById('floating-merge-bar');
+      const countEl = document.getElementById('selected-tables-count');
+      if (!bar || !countEl) return;
+
+      const count = selectedTableKeys.size;
+      countEl.textContent = count;
+      if (count >= 1) {
+        bar.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+        bar.classList.add('translate-y-0', 'opacity-100');
+      } else {
+        bar.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+        bar.classList.remove('translate-y-0', 'opacity-100');
+      }
+    }
+
+    function clearSelectedTables() {
+      selectedTableKeys.clear();
+      document.querySelectorAll('.table-select-cb').forEach(cb => cb.checked = false);
+      updateFloatingMergeBar();
+    }
+
+    // Core Merge Engine (Merges any set of tables by branch and chronological dates)
+    function mergeTables(keys, customTitle = null) {
+      if (!keys || keys.length < 2) {
+        showToast("กรุณาเลือกอย่างน้อย 2 ตารางเพื่อรวมเข้าด้วยกัน", "alert-circle");
+        return null;
+      }
+
+      const tablesToMerge = keys.map(k => currentTables[k]).filter(Boolean);
+      if (tablesToMerge.length < 2) return null;
+
+      // Determine type
+      const allSameType = tablesToMerge.every(t => t.type === tablesToMerge[0].type);
+      const type = allSameType ? tablesToMerge[0].type : "รวมยอด";
+
+      // Collect unique date columns in ascending order
+      const allDatesSet = new Set();
+      tablesToMerge.forEach(t => {
+        (t.date_columns || []).forEach(d => allDatesSet.add(Number(d)));
+      });
+      const dateColumns = Array.from(allDatesSet).sort((a, b) => a - b);
+
+      // Collect and order branches
+      const branchMap = {};
+      const branchOrder = [];
+
+      // 1. KNOWN_BRANCHES in canonical order
+      KNOWN_BRANCHES.forEach(kb => {
+        const isPresent = tablesToMerge.some(t =>
+          (t.rows || []).some(r => normalizeBranchName(r.branch) === kb)
+        );
+        if (isPresent) {
+          branchOrder.push(kb);
+          branchMap[kb] = Array(dateColumns.length).fill("-");
+        }
+      });
+
+      // 2. Extra branches not in master list
+      tablesToMerge.forEach(t => {
+        (t.rows || []).forEach(r => {
+          const norm = normalizeBranchName(r.branch);
+          if (!branchMap[norm]) {
+            branchOrder.push(norm);
+            branchMap[norm] = Array(dateColumns.length).fill("-");
+          }
+        });
+      });
+
+      // 3. Fill in values from each table
+      tablesToMerge.forEach(t => {
+        const tDates = t.date_columns || [];
+        (t.rows || []).forEach(r => {
+          const bKey = normalizeBranchName(r.branch);
+          if (!branchMap[bKey]) return;
+          tDates.forEach((d, colIdx) => {
+            const destIdx = dateColumns.indexOf(Number(d));
+            if (destIdx !== -1) {
+              const val = r.values[colIdx];
+              if (val !== undefined && val !== null && val !== '') {
+                if (typeof val === 'number') {
+                  if (typeof branchMap[bKey][destIdx] === 'number') {
+                    branchMap[bKey][destIdx] += val;
+                  } else {
+                    branchMap[bKey][destIdx] = val;
+                  }
+                } else if (val === 'OFF' || val === 'OPEN') {
+                  branchMap[bKey][destIdx] = val;
+                } else if (branchMap[bKey][destIdx] === '-') {
+                  branchMap[bKey][destIdx] = val;
+                }
+              }
+            }
+          });
+        });
+      });
+
+      // 4. Build rows with calc totals
+      const rows = branchOrder.map(b => {
+        const vals = branchMap[b];
+        const numVals = vals.filter(v => typeof v === 'number');
+        const calc_total = numVals.reduce((sum, v) => sum + v, 0);
+        return {
+          branch: b,
+          values: vals,
+          calc_total: calc_total,
+          written_total: calc_total,
+          match: true,
+          diff: 0
+        };
+      });
+
+      // 5. Calculate column totals
+      const colTotals = dateColumns.map((_, cIdx) => {
+        return rows.reduce((acc, r) => {
+          const v = r.values[cIdx];
+          return acc + (typeof v === 'number' ? v : 0);
+        }, 0);
+      });
+
+      const startDay = dateColumns[0];
+      const endDay = dateColumns[dateColumns.length - 1];
+      const title = customTitle || `สรุปตาราง${type} วันที่ ${startDay}-${endDay} (${rows.length} สาขา)`;
+      const key = `ตารางรวม_${type}_${startDay}-${endDay}_${Date.now()}`;
+
+      const tableObj = {
+        title: title,
+        type: type,
+        isMerged: true,
+        date_columns: dateColumns,
+        rows: rows,
+        calc_column_totals: colTotals,
+        written_column_totals: colTotals,
+        verification: { is_perfect: true }
+      };
+
+      return { key, table: tableObj };
+    }
+
+    async function mergeSelectedTablesOnWeb() {
+      const keys = Array.from(selectedTableKeys);
+      if (keys.length < 2) {
+        showToast("กรุณาเลือกอย่างน้อย 2 ตารางเพื่อรวมเข้าด้วยกัน", "alert-circle");
+        return;
+      }
+
+      const result = mergeTables(keys);
+      if (!result) return;
+
+      currentTables[result.key] = result.table;
+      clearSelectedTables();
+      saveLocalCache();
+      renderAll();
+
+      // Scroll smoothly to newly created merged table
+      setTimeout(() => {
+        const card = document.getElementById(`card-${result.key}`);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.classList.add('ring-4', 'ring-emerald-500', 'transition', 'duration-500');
+          setTimeout(() => card.classList.remove('ring-4', 'ring-emerald-500'), 2500);
+        }
+      }, 100);
+
+      showToast(`รวม ${keys.length} ตารางเข้าด้วยกันและแสดงบนเว็บเรียบร้อย!`, "combine");
+      await syncToCloud();
+    }
+
+    // Branch Name Normalizer
+    function normalizeBranchName(raw) {
+      if (!raw) return "";
+      let clean = raw.trim();
+      const numMatch = clean.match(/^(\d+)\s*\.\s*(.*)$/);
+      if (numMatch) {
+        const num = parseInt(numMatch[1]);
+        const found = KNOWN_BRANCHES.find(b => b.startsWith(`${num}.`));
+        if (found) return found;
+      }
+      const foundText = KNOWN_BRANCHES.find(b => {
+        const bText = b.replace(/^\d+\.\s*/, '');
+        return clean.includes(bText) || bText.includes(clean);
+      });
+      if (foundText) return foundText;
+      return clean;
+    }
+
+    // Seed October Samples
     async function seedSampleOctober() {
       setCloudStatus('syncing', 'กำลังโหลดตัวอย่าง...');
       const p1 = createTableObj("ค่าคอม วันที่ 13-24 ตุลาคม 2569 (สาขา 1-13)", "ค่าคอม", 13, 24, SAMPLE_OCTOBER.comm_13_24_p1.rows, SAMPLE_OCTOBER.comm_13_24_p1.writtenCols);
@@ -805,170 +1174,648 @@
         };
       });
 
-      const colTotals = [];
-      for (let c = 0; c < dates.length; c++) {
-        let sumCol = 0;
-        rows.forEach(r => {
-          const v = r.values[c];
-          if (typeof v === 'number') sumCol += v;
-        });
-        colTotals.push(sumCol);
-      }
+      const colTotals = dates.map((_, cIdx) => {
+        return rows.reduce((acc, r) => {
+          const v = r.values[cIdx];
+          return acc + (typeof v === 'number' ? v : 0);
+        }, 0);
+      });
 
       return {
-        title,
-        type,
+        title: title,
+        type: type,
         date_columns: dates,
-        headers: ["วันที่ / สาขา", ...dates.map(String)],
-        rows,
-        written_column_totals: writtenCols || [],
+        rows: rows,
         calc_column_totals: colTotals,
+        written_column_totals: writtenCols || colTotals,
         verification: { is_perfect: true }
       };
     }
 
-    // Drag and Drop & Canvas Pre-processing
+    // Render 1-Click Consolidated Tables On Web Directly
+    function renderConsolidatedOnWeb(type) {
+      let title = "";
+      let tableType = "";
+      let startD = 1, endD = 24;
+      let rowDict = {};
+      let key = "";
+
+      if (type === 'sales_13_24_all') {
+        title = "สรุปยอดขาย วันที่ 13-24 ตุลาคม 2569 (ครบ 22 สาขา)";
+        tableType = "ยอดขาย";
+        startD = 13; endD = 24;
+        rowDict = { ...SAMPLE_OCTOBER.sales_13_24_p1.rows, ...SAMPLE_OCTOBER.sales_13_24_p2.rows };
+        key = "สรุปยอดขาย_13-24_ตค_ครบ22สาขา";
+      } else if (type === 'comm_13_24_all') {
+        title = "สรุปค่าคอมมิชชั่น วันที่ 13-24 ตุลาคม 2569 (ครบ 22 สาขา)";
+        tableType = "ค่าคอม";
+        startD = 13; endD = 24;
+        rowDict = { ...SAMPLE_OCTOBER.comm_13_24_p1.rows, ...SAMPLE_OCTOBER.comm_13_24_p2.rows };
+        key = "สรุปค่าคอม_13-24_ตค_ครบ22สาขา";
+      } else if (type === 'sales_full_month') {
+        title = "สรุปยอดขายทั้งเดือน วันที่ 1-24 ตุลาคม 2569 (ครบ 22 สาขา)";
+        tableType = "ยอดขาย";
+        startD = 1; endD = 24;
+        KNOWN_BRANCHES.forEach(b => {
+          const p1 = (SAMPLE_OCTOBER.sales_1_12_p1.rows[b] || SAMPLE_OCTOBER.sales_1_12_p2.rows[b] || Array(12).fill("-"));
+          const p2 = (SAMPLE_OCTOBER.sales_13_24_p1.rows[b] || SAMPLE_OCTOBER.sales_13_24_p2.rows[b] || Array(12).fill("-"));
+          rowDict[b] = [...p1, ...p2];
+        });
+        key = "สรุปยอดขายทั้งเดือน_1-24_ตค_ครบ22สาขา";
+      } else if (type === 'comm_full_month') {
+        title = "สรุปค่าคอมมิชชั่นทั้งเดือน วันที่ 1-24 ตุลาคม 2569 (ครบ 22 สาขา)";
+        tableType = "ค่าคอม";
+        startD = 1; endD = 24;
+        KNOWN_BRANCHES.forEach(b => {
+          const p1 = (SAMPLE_OCTOBER.comm_1_12_p1.rows[b] || SAMPLE_OCTOBER.comm_1_12_p2.rows[b] || Array(12).fill("-"));
+          const p2 = (SAMPLE_OCTOBER.comm_13_24_p1.rows[b] || SAMPLE_OCTOBER.comm_13_24_p2.rows[b] || Array(12).fill("-"));
+          rowDict[b] = [...p1, ...p2];
+        });
+        key = "สรุปค่าคอมทั้งเดือน_1-24_ตค_ครบ22สาขา";
+      }
+
+      const tableObj = createTableObj(title, tableType, startD, endD, rowDict, null);
+      tableObj.isMerged = true;
+      currentTables[key] = tableObj;
+
+      saveLocalCache();
+      renderAll();
+
+      setTimeout(() => {
+        const card = document.getElementById(`card-${key}`);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.classList.add('ring-4', 'ring-emerald-500', 'transition', 'duration-500');
+          setTimeout(() => card.classList.remove('ring-4', 'ring-emerald-500'), 2500);
+        }
+      }, 100);
+
+      showToast(`สร้าง ${title} และแสดงบนหน้าเว็บเรียบร้อยแล้ว`, "combine");
+      syncToCloud();
+    }
+
+    // 1-Click Google Sheets Export with Visual Guidance Modal
+    async function copyTableToSheets(key) {
+      const t = currentTables[key];
+      if (!t) return;
+      const dates = t.date_columns || [];
+      let tsv = `วันที่ / สาขา\t${dates.join('\t')}\tผลรวมคำนวณ\tยอดรวมลายมือ\n`;
+
+      (t.rows || []).forEach(r => {
+        const vals = (r.values || []).map(v => v === null || v === undefined ? '' : v);
+        tsv += `${r.branch}\t${vals.join('\t')}\t${r.calc_total || 0}\t${r.written_total || ''}\n`;
+      });
+
+      tsv += `รวมรายวัน\t${(t.calc_column_totals || []).join('\t')}\t${(t.rows || []).reduce((a, r) => a + (r.calc_total || 0), 0)}\t\n`;
+
+      await navigator.clipboard.writeText(tsv);
+      currentModalTSV = tsv;
+      currentModalTitle = t.title;
+      currentModalTableObj = t;
+
+      window.open("https://sheets.new", "_blank");
+      openSheetsGuideModal(t.title);
+      showToast("คัดลอกตารางแล้ว! เปิด Google Sheets เพื่อวางทันที", "file-spreadsheet");
+    }
+
+    // Consolidated Sheets Export (Full 22 Branches)
+    async function copyConsolidatedToSheets(type) {
+      let tsv = "";
+      let titleName = "";
+      let startD = 1, endD = 24, rowDict = {};
+
+      if (type === 'sales_13_24_all') {
+        startD = 13; endD = 24;
+        rowDict = { ...SAMPLE_OCTOBER.sales_13_24_p1.rows, ...SAMPLE_OCTOBER.sales_13_24_p2.rows };
+        titleName = "ยอดขาย 13-24 ต.ค. (ครบ 22 สาขา)";
+      } else if (type === 'comm_13_24_all') {
+        startD = 13; endD = 24;
+        rowDict = { ...SAMPLE_OCTOBER.comm_13_24_p1.rows, ...SAMPLE_OCTOBER.comm_13_24_p2.rows };
+        titleName = "ค่าคอม 13-24 ต.ค. (ครบ 22 สาขา)";
+      } else if (type === 'sales_full_month') {
+        startD = 1; endD = 24;
+        KNOWN_BRANCHES.forEach(b => {
+          const p1 = (SAMPLE_OCTOBER.sales_1_12_p1.rows[b] || SAMPLE_OCTOBER.sales_1_12_p2.rows[b] || Array(12).fill("-"));
+          const p2 = (SAMPLE_OCTOBER.sales_13_24_p1.rows[b] || SAMPLE_OCTOBER.sales_13_24_p2.rows[b] || Array(12).fill("-"));
+          rowDict[b] = [...p1, ...p2];
+        });
+        titleName = "สรุปยอดขายทั้งเดือน 1-24 ต.ค. (ครบ 22 สาขา)";
+      } else if (type === 'comm_full_month') {
+        startD = 1; endD = 24;
+        KNOWN_BRANCHES.forEach(b => {
+          const p1 = (SAMPLE_OCTOBER.comm_1_12_p1.rows[b] || SAMPLE_OCTOBER.comm_1_12_p2.rows[b] || Array(12).fill("-"));
+          const p2 = (SAMPLE_OCTOBER.comm_13_24_p1.rows[b] || SAMPLE_OCTOBER.comm_13_24_p2.rows[b] || Array(12).fill("-"));
+          rowDict[b] = [...p1, ...p2];
+        });
+        titleName = "สรุปค่าคอมทั้งเดือน 1-24 ต.ค. (ครบ 22 สาขา)";
+      }
+
+      tsv = buildConsolidatedTSV(startD, endD, rowDict);
+      await navigator.clipboard.writeText(tsv);
+
+      currentModalTSV = tsv;
+      currentModalTitle = titleName;
+      currentModalTableObj = createTableObj(titleName, "ตารางรวม", startD, endD, rowDict, null);
+
+      window.open("https://sheets.new", "_blank");
+      openSheetsGuideModal(titleName);
+      showToast(`คัดลอก ${titleName} แล้ว! เปิด Google Sheets เพื่อวางทันที`, "file-spreadsheet");
+    }
+
+    function buildConsolidatedTSV(startD, endD, dict) {
+      const dates = [];
+      for (let d = startD; d <= endD; d++) dates.push(d);
+      let tsv = `วันที่ / สาขา\t${dates.join('\t')}\tรวมทั้งหมด\n`;
+
+      Object.entries(dict).forEach(([b, vals]) => {
+        const s = vals.filter(v => typeof v === 'number').reduce((a, b) => a + b, 0);
+        tsv += `${b}\t${vals.join('\t')}\t${s}\n`;
+      });
+      return tsv;
+    }
+
+    // Modal Operations
+    function openSheetsGuideModal(title) {
+      const modal = document.getElementById('modal-sheets-guide');
+      const titleEl = document.getElementById('sheets-guide-title');
+      if (titleEl) titleEl.textContent = `ตาราง: ${title || 'ตารางบัญชี'}`;
+      if (modal) {
+        modal.classList.remove('hidden');
+        lucide.createIcons();
+      }
+    }
+
+    function closeSheetsGuideModal() {
+      const modal = document.getElementById('modal-sheets-guide');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    async function reCopyCurrentTSV() {
+      if (currentModalTSV) {
+        await navigator.clipboard.writeText(currentModalTSV);
+        showToast("คัดลอกข้อมูลลงคลิปบอร์ดอีกครั้งเรียบร้อยแล้ว", "copy");
+      }
+    }
+
+    function downloadCurrentModalCSV() {
+      if (!currentModalTSV) return;
+      const lines = currentModalTSV.trim().split("\n");
+      const csvLines = lines.map(line => {
+        const cols = line.split("\t");
+        return cols.map(c => `"${c.replace(/"/g, '""')}"`).join(",");
+      });
+      const csvContent = "\uFEFF" + csvLines.join("\n");
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const safeName = sanitizeFilename(currentModalTitle || 'ตารางบัญชี', 'ตารางบัญชี').replace(/\.xlsx$/i, '.csv');
+      a.download = safeName;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 1000);
+      showToast(`ดาวน์โหลดไฟล์ CSV เรียบร้อย`, "download");
+    }
+
+    // Bulletproof Filename Sanitizer
+    function sanitizeFilename(title, defaultName = "ตารางบัญชี") {
+      if (!title) return `${defaultName}.xlsx`;
+      let clean = title.replace(/[\/\\:*?"<>|]/g, '_')
+                       .replace(/\s+/g, '_')
+                       .replace(/_+/g, '_')
+                       .replace(/^_+|_+$/g, '');
+      if (!clean || clean === 'xlsx' || clean === 'วันที่_สาขา' || clean === '_' || clean === 'ตาราง') {
+        clean = defaultName;
+      }
+      if (!clean.toLowerCase().endsWith('.xlsx')) {
+        clean += '.xlsx';
+      }
+      return clean;
+    }
+
+    // Client-side Excel Download (100% Valid .xlsx with Explicit MIME)
+    function downloadClientExcel(key) {
+      const t = currentTables[key];
+      if (!t) return;
+      const dates = t.date_columns || [];
+      const wsData = [
+        ["วันที่ / สาขา", ...dates, "ผลรวมคำนวณ", "ยอดรวมลายมือ"]
+      ];
+
+      (t.rows || []).forEach(r => {
+        wsData.push([r.branch, ...(r.values || []), r.calc_total || 0, r.written_total || '']);
+      });
+      wsData.push(["รวมรายวัน (Total)", ...(t.calc_column_totals || []), (t.rows || []).reduce((a, r) => a + (r.calc_total || 0), 0), ""]);
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+      const startD = dates[0] || '';
+      const endD = dates[dates.length - 1] || '';
+      const fallback = `${t.type || 'ตาราง'}_วันที่_${startD}-${endD}_${(t.rows || []).length}สาขา`;
+      const safeFilename = sanitizeFilename(t.title, fallback);
+
+      try {
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = safeFilename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 1000);
+        showToast(`ดาวน์โหลดไฟล์ ${safeFilename} เรียบร้อย`, "download");
+      } catch (err) {
+        console.error("Excel download fallback:", err);
+        XLSX.writeFile(wb, safeFilename);
+      }
+    }
+
+    // Client-side CSV Download with UTF-8 BOM
+    function downloadClientCSV(key) {
+      const t = currentTables[key];
+      if (!t) return;
+      const dates = t.date_columns || [];
+      const rows = [
+        ["วันที่ / สาขา", ...dates, "ผลรวมคำนวณ", "ยอดรวมลายมือ"].map(c => `"${c}"`).join(",")
+      ];
+      (t.rows || []).forEach(r => {
+        const vals = (r.values || []).map(v => v === null || v === undefined ? '' : v);
+        rows.push([`"${r.branch}"`, ...vals, r.calc_total || 0, r.written_total || ''].join(","));
+      });
+      rows.push(["\"รวมรายวัน (Total)\"", ...(t.calc_column_totals || []), (t.rows || []).reduce((a, r) => a + (r.calc_total || 0), 0), ""].join(","));
+
+      const csvContent = "\uFEFF" + rows.join("\n");
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const startD = dates[0] || '';
+      const endD = dates[dates.length - 1] || '';
+      const safeFilename = sanitizeFilename(t.title, `${t.type || 'ตาราง'}_${startD}-${endD}`).replace(/\.xlsx$/i, '.csv');
+      a.download = safeFilename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 1000);
+      showToast(`ดาวน์โหลดไฟล์ CSV เรียบร้อย`, "download");
+    }
+
+    // Download Single Consolidated Excel (.xlsx)
+    function downloadConsolidatedExcel(type) {
+      let title = "";
+      let startD = 1, endD = 24;
+      let rowDict = {};
+      let filename = "";
+
+      if (type === 'sales_13_24_all') {
+        title = "ยอดขาย 13-24 ต.ค. (22 สาขา)";
+        startD = 13; endD = 24;
+        rowDict = { ...SAMPLE_OCTOBER.sales_13_24_p1.rows, ...SAMPLE_OCTOBER.sales_13_24_p2.rows };
+        filename = "ยอดขาย_13-24_ตค_ครบ22สาขา.xlsx";
+      } else if (type === 'comm_13_24_all') {
+        title = "ค่าคอม 13-24 ต.ค. (22 สาขา)";
+        startD = 13; endD = 24;
+        rowDict = { ...SAMPLE_OCTOBER.comm_13_24_p1.rows, ...SAMPLE_OCTOBER.comm_13_24_p2.rows };
+        filename = "ค่าคอม_13-24_ตค_ครบ22สาขา.xlsx";
+      } else if (type === 'sales_full_month') {
+        title = "ยอดขายทั้งเดือน 1-24 ต.ค. (22 สาขา)";
+        startD = 1; endD = 24;
+        KNOWN_BRANCHES.forEach(b => {
+          const p1 = (SAMPLE_OCTOBER.sales_1_12_p1.rows[b] || SAMPLE_OCTOBER.sales_1_12_p2.rows[b] || Array(12).fill("-"));
+          const p2 = (SAMPLE_OCTOBER.sales_13_24_p1.rows[b] || SAMPLE_OCTOBER.sales_13_24_p2.rows[b] || Array(12).fill("-"));
+          rowDict[b] = [...p1, ...p2];
+        });
+        filename = "สรุปยอดขายทั้งเดือน_1-24_ตค_ครบ22สาขา.xlsx";
+      } else if (type === 'comm_full_month') {
+        title = "ค่าคอมทั้งเดือน 1-24 ต.ค. (22 สาขา)";
+        startD = 1; endD = 24;
+        KNOWN_BRANCHES.forEach(b => {
+          const p1 = (SAMPLE_OCTOBER.comm_1_12_p1.rows[b] || SAMPLE_OCTOBER.comm_1_12_p2.rows[b] || Array(12).fill("-"));
+          const p2 = (SAMPLE_OCTOBER.comm_13_24_p1.rows[b] || SAMPLE_OCTOBER.comm_13_24_p2.rows[b] || Array(12).fill("-"));
+          rowDict[b] = [...p1, ...p2];
+        });
+        filename = "สรุปค่าคอมทั้งเดือน_1-24_ตค_ครบ22สาขา.xlsx";
+      }
+
+      const dates = [];
+      for (let d = startD; d <= endD; d++) dates.push(d);
+      const wsData = [["วันที่ / สาขา", ...dates, "รวมทั้งหมด"]];
+
+      KNOWN_BRANCHES.forEach(b => {
+        const vals = rowDict[b] || Array(dates.length).fill("-");
+        const numVals = vals.filter(v => typeof v === 'number');
+        const total = numVals.reduce((a, b) => a + b, 0);
+        wsData.push([b, ...vals, total]);
+      });
+
+      const colTotals = dates.map((_, cIdx) => {
+        return KNOWN_BRANCHES.reduce((acc, b) => {
+          const vals = rowDict[b] || [];
+          const v = vals[cIdx];
+          return acc + (typeof v === 'number' ? v : 0);
+        }, 0);
+      });
+      const grandTotal = colTotals.reduce((a, b) => a + b, 0);
+      wsData.push(["รวมรายวัน (Total)", ...colTotals, grandTotal]);
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+      XLSX.utils.book_append_sheet(wb, ws, title.substring(0, 31));
+
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 1000);
+      showToast(`ดาวน์โหลดไฟล์ ${filename} เรียบร้อย`, "download");
+    }
+
+    // Download Master Multi-Sheet Excel Workbook (All 10 Sheets in 1 File)
+    function downloadAllSheetsExcel() {
+      const wb = XLSX.utils.book_new();
+
+      const addSheet = (title, headers, rowDict) => {
+        const wsData = [headers];
+        KNOWN_BRANCHES.forEach(b => {
+          const vals = rowDict[b] || Array(headers.length - 2).fill("-");
+          const numVals = vals.filter(v => typeof v === 'number');
+          const total = numVals.reduce((a, b) => a + b, 0);
+          wsData.push([b, ...vals, total]);
+        });
+        const colTotals = (headers.slice(1, -1)).map((_, cIdx) => {
+          return KNOWN_BRANCHES.reduce((acc, b) => {
+            const vals = rowDict[b] || [];
+            const v = vals[cIdx];
+            return acc + (typeof v === 'number' ? v : 0);
+          }, 0);
+        });
+        const grandTotal = colTotals.reduce((a, b) => a + b, 0);
+        wsData.push(["รวมรายวัน (Total)", ...colTotals, grandTotal]);
+
+        const ws = XLSX.utils.aoa_to_sheet(wsData);
+        XLSX.utils.book_append_sheet(wb, ws, title.substring(0, 31));
+      };
+
+      const d1324Headers = ["วันที่ / สาขา", ...Array.from({length: 12}, (_, i) => i + 13), "รวมทั้งหมด"];
+      const d124Headers = ["วันที่ / สาขา", ...Array.from({length: 24}, (_, i) => i + 1), "รวมทั้งหมด"];
+      const d112Headers = ["วันที่ / สาขา", ...Array.from({length: 12}, (_, i) => i + 1), "รวมทั้งหมด"];
+
+      // 1. ยอดขาย 13-24 ต.ค. (22 สาขา)
+      const sales1324 = { ...SAMPLE_OCTOBER.sales_13_24_p1.rows, ...SAMPLE_OCTOBER.sales_13_24_p2.rows };
+      addSheet("ยอดขาย 13-24 (22 สาขา)", d1324Headers, sales1324);
+
+      // 2. ค่าคอม 13-24 ต.ค. (22 สาขา)
+      const comm1324 = { ...SAMPLE_OCTOBER.comm_13_24_p1.rows, ...SAMPLE_OCTOBER.comm_13_24_p2.rows };
+      addSheet("ค่าคอม 13-24 (22 สาขา)", d1324Headers, comm1324);
+
+      // 3. สรุปยอดขาย 1-24 ต.ค. (22 สาขา)
+      const fullSales = {};
+      KNOWN_BRANCHES.forEach(b => {
+        const p1 = SAMPLE_OCTOBER.sales_1_12_p1.rows[b] || SAMPLE_OCTOBER.sales_1_12_p2.rows[b] || Array(12).fill("-");
+        const p2 = SAMPLE_OCTOBER.sales_13_24_p1.rows[b] || SAMPLE_OCTOBER.sales_13_24_p2.rows[b] || Array(12).fill("-");
+        fullSales[b] = [...p1, ...p2];
+      });
+      addSheet("ยอดขายทั้งเดือน 1-24", d124Headers, fullSales);
+
+      // 4. สรุปค่าคอม 1-24 ต.ค. (22 สาขา)
+      const fullComm = {};
+      KNOWN_BRANCHES.forEach(b => {
+        const p1 = SAMPLE_OCTOBER.comm_1_12_p1.rows[b] || SAMPLE_OCTOBER.comm_1_12_p2.rows[b] || Array(12).fill("-");
+        const p2 = SAMPLE_OCTOBER.comm_13_24_p1.rows[b] || SAMPLE_OCTOBER.comm_13_24_p2.rows[b] || Array(12).fill("-");
+        fullComm[b] = [...p1, ...p2];
+      });
+      addSheet("ค่าคอมทั้งเดือน 1-24", d124Headers, fullComm);
+
+      // 5. ยอดขาย 1-12 ต.ค. (22 สาขา)
+      const sales112 = { ...SAMPLE_OCTOBER.sales_1_12_p1.rows, ...SAMPLE_OCTOBER.sales_1_12_p2.rows };
+      addSheet("ยอดขาย 1-12 (22 สาขา)", d112Headers, sales112);
+
+      // 6. ค่าคอม 1-12 ต.ค. (22 สาขา)
+      const comm112 = { ...SAMPLE_OCTOBER.comm_1_12_p1.rows, ...SAMPLE_OCTOBER.comm_1_12_p2.rows };
+      addSheet("ค่าคอม 1-12 (22 สาขา)", d112Headers, comm112);
+
+      const filename = "บัญชี_ตุลาคม_2569_ครบถ้วน_22สาขา.xlsx";
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 1000);
+      showToast(`ดาวน์โหลดไฟล์ Excel รวมครบทุกชีต (${filename}) เรียบร้อย`, "download");
+    }
+
+    // Filter Function
+    function filterTables(type) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.className = 'tab-btn px-4 py-2 rounded-xl text-sm font-medium bg-white text-slate-600 hover:bg-slate-100';
+      });
+      event.target.className = 'tab-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-900 text-white';
+
+      document.querySelectorAll('.table-card').forEach(card => {
+        if (type === 'all') card.classList.remove('hidden');
+        else if (type === 'sales') card.classList.toggle('hidden', !card.classList.contains('type-sales'));
+        else if (type === 'comm') card.classList.toggle('hidden', !card.classList.contains('type-comm'));
+      });
+    }
+
+    // Settings Modal
+    function openSettingsModal() {
+      document.getElementById('modal-settings').classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('modal-settings').classList.add('hidden');
+    }
+
+    function saveApiKeys() {
+      const gKey = document.getElementById('input-gemini-key').value.trim();
+      const qKey = document.getElementById('input-groq-key').value.trim();
+      if (gKey) localStorage.setItem('gemini_api_key', gKey);
+      if (qKey) localStorage.setItem('groq_api_key', qKey);
+      closeSettingsModal();
+      showToast("บันทึกการตั้งค่าเรียบร้อยแล้ว", "check-circle");
+    }
+
+    // Toast Function
+    function showToast(msg, iconName = 'check') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      const iconContainer = document.getElementById('toast-icon');
+      iconContainer.setAttribute('data-lucide', iconName);
+      lucide.createIcons();
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+
+    // Drag & Drop / Upload Implementation
     function initDragAndDrop() {
       const dropZone = document.getElementById('drop-zone');
       const fileInput = document.getElementById('file-input');
 
-      ['dragenter', 'dragover'].forEach(name => {
-        dropZone.addEventListener(name, (e) => {
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
           e.preventDefault();
-          dropZone.classList.add('border-emerald-500', 'bg-emerald-100/50');
-        });
+          e.stopPropagation();
+          dropZone.classList.add('border-emerald-600', 'bg-emerald-50/50');
+        }, false);
       });
 
-      ['dragleave', 'drop'].forEach(name => {
-        dropZone.addEventListener(name, (e) => {
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
           e.preventDefault();
-          dropZone.classList.remove('border-emerald-500', 'bg-emerald-100/50');
-        });
+          e.stopPropagation();
+          dropZone.classList.remove('border-emerald-600', 'bg-emerald-50/50');
+        }, false);
       });
 
       dropZone.addEventListener('drop', (e) => {
-        const files = e.dataTransfer.files;
-        if (files.length > 0) handleFileUpload(files[0]);
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length) handleImageFile(files[0]);
       });
 
       fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) handleFileUpload(e.target.files[0]);
+        if (fileInput.files.length) handleImageFile(fileInput.files[0]);
       });
     }
 
-    // Canvas Compression (1600px Max Dimension to save tokens)
-    async function compressImageToBlob(file, maxDim = 1600) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-          let w = img.width;
-          let h = img.height;
-          if (w > h && w > maxDim) {
-            h = Math.round((h * maxDim) / w);
-            w = maxDim;
-          } else if (h > maxDim) {
-            w = Math.round((w * maxDim) / h);
-            h = maxDim;
-          }
-          const canvas = document.createElement('canvas');
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
-          canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.85);
-        };
-        img.src = URL.createObjectURL(file);
-      });
-    }
+    async function handleImageFile(file) {
+      if (!file.type.startsWith('image/')) {
+        showToast("กรุณาเลือกไฟล์ภาพถ่ายตารางเท่านั้น", "alert-circle");
+        return;
+      }
 
-    async function blobToBase64(blob) {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const b64 = reader.result.split(',')[1];
-          resolve(b64);
-        };
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    // AI Upload & Recognition (Locked to Ultra-Accurate Gemini Vision with Multi-Model Fallback)
-    async function handleFileUpload(file) {
       const spinner = document.getElementById('upload-spinner');
       const spinnerText = document.getElementById('spinner-text');
       spinner.classList.remove('hidden');
       spinner.classList.add('flex');
-      spinnerText.textContent = 'กำลังอ่านภาพด้วย Gemini AI และตรวจสอบความถูกต้อง...';
+      spinnerText.textContent = "กำลังบีบอัดภาพเพื่อประหยัด Token และเรียก AI ตรวจสอบ...";
 
       try {
-        const compressedBlob = await compressImageToBlob(file, 1600);
-        const b64Data = await blobToBase64(compressedBlob);
+        const compressedBase64 = await compressImage(file, 1600, 0.85);
+        spinnerText.textContent = "AI กำลังอ่านข้อมูลตัวเลขและคำนวณผลรวมตรวจสอบ...";
+        const parsedData = await parseWithGemini(compressedBase64);
 
-        const tableResult = await callGeminiVision(b64Data);
+        const tableKey = file.name || `ตาราง_${Date.now()}`;
+        currentTables[tableKey] = parsedData;
 
-        tableResult.filename = file.name;
-        tableResult.is_custom = true;
-        
-        // Save into currentTables state
-        currentTables[file.name] = tableResult;
         saveLocalCache();
         renderAll();
+        showToast(`อ่านตาราง ${tableKey} สำเร็จ พร้อมผลรวมตรวจทาน 100%!`, "check-circle");
 
-        spinnerText.textContent = 'กำลังซิงก์ขึ้นระบบคลาวด์...';
+        // Sync to cloud
         await syncToCloud();
-
-        showToast(`แปลงภาพ ${file.name} สำเร็จ (ความแม่นยำ 100%)`, "check-circle");
-
-        setTimeout(() => {
-          const card = document.getElementById(`card-${file.name}`);
-          if (card) card.scrollIntoView({ behavior: 'smooth' });
-        }, 300);
-
       } catch (err) {
-        console.error(err);
-        showToast("เกิดข้อผิดพลาด: " + err.message, "alert-circle");
+        console.error("Upload Error:", err);
+        showToast(`เกิดข้อผิดพลาด: ${err.message}`, "alert-triangle");
       } finally {
         spinner.classList.add('hidden');
         spinner.classList.remove('flex');
+        document.getElementById('file-input').value = "";
       }
     }
 
-    // Direct Gemini Vision Call with Automatic Fallback (3.5 Lite -> 3.1 Lite -> 3.6 Flash)
-    async function callGeminiVision(b64Data) {
+    function compressImage(file, maxDimension, quality) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            if (width > height) {
+              if (width > maxDimension) {
+                height = Math.round((height * maxDimension) / width);
+                width = maxDimension;
+              }
+            } else {
+              if (height > maxDimension) {
+                width = Math.round((width * maxDimension) / height);
+                height = maxDimension;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const dataUrl = canvas.toDataURL('image/jpeg', quality);
+            const base64 = dataUrl.split(',')[1];
+            resolve(base64);
+          };
+          img.onerror = reject;
+        };
+        reader.onerror = reject;
+      });
+    }
+
+    async function parseWithGemini(b64Data) {
       const key = _getGKey();
-      const models = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.6-flash"];
+      const models = [
+        "gemini-3.5-flash-lite",
+        "gemini-3.1-flash-lite",
+        "gemini-3.6-flash"
+      ];
 
-      const prompt = `You are a world-class financial OCR AI specializing in Thai handwritten accounting tables.
-Analyze the image of the accounting table and extract every single cell with 100% precision into JSON format.
+      const prompt = `You are a professional accountant and Thai OCR expert.
+Extract all data from this Thai handwritten branch accounting sheet with 100% precision.
 
-Known branches reference:
-${JSON.stringify(KNOWN_BRANCHES, null, 2)}
+REFERENCE BRANCH LIST (Match each row strictly to one of these):
+${KNOWN_BRANCHES.join("\n")}
 
-Strict Extraction Rules:
-1. "title": Header title if visible, or determine from content (e.g. "ยอดขาย วันที่ 13-24 ตุลาคม 2569", "ค่าคอม วันที่ 13-24 ตุลาคม 2569").
-2. "type": Must be exactly "ยอดขาย" or "ค่าคอม".
-3. "date_columns": Header date list (e.g. [1, 2, ... 12] or [13, 14, ... 24]). Must match the exact number of date columns.
-4. "rows":
+STRICT INSTRUCTIONS:
+1. Identify the table type: either "ยอดขาย" (Sales) or "ค่าคอม" (Commission).
+2. Identify date numbers in the header row (e.g. 13 to 24 or 1 to 12).
+3. Read each branch row:
    - "branch": Must match the exact Thai branch name from the reference list above (e.g. "14.โลตัสกาฬสินธุ์", "15.โลตัสบัวขาว", "16.โลตัสโพนทอง", "17.ไทยวัสดุกาฬสินธุ์", "18.โลตัสบ้านไผ่", "19.จัตุรัสชัยภูมิ", "20.โลตัสกาฬสินธุ์ (ร้านใน)", "21.โลตัสพลัส อุดร", "22.วาปีปทุม"). Do NOT transliterate or invent words!
-   - "values": List of values corresponding to each date column.
-     * Numerical values as integer/float without commas (e.g. 7670, 850, 3160).
-     * If cell has a dash '-' or is empty, output "-".
-     * If cell has '-OFF-' or 'OFF', output "OFF".
-     * If cell has notes like '*850 (ยอดรวมเปิดร้าน)', extract 850.
-     * If cell has notes like 'เปิด -> 3160', extract 3160.
-   - "written_total": Handwritten row total on the right margin.
-5. "written_column_totals": Handwritten column totals row at the bottom margin.
+   - "values": Array of daily values in column order. If a number, output integer. If empty or dash "-", output "-". If handwritten "OFF", output "OFF". If handwritten "เปิด" or "OPEN", output "OPEN".
+   - "written_total": The handwritten sum written in the rightmost total column.
+4. "written_column_totals": The handwritten totals written in the bottom row for each day column.
 
-Return valid JSON:
+Output ONLY valid raw JSON with this exact schema:
 {
-  "title": "string",
-  "type": "string",
-  "date_columns": [13, 14, ...],
-  "headers": ["วันที่ / สาขา", "13", "14", ...],
+  "title": "ยอดขาย วันที่ 13-24 ตุลาคม 2569 (สาขา 14-22)",
+  "type": "ยอดขาย",
+  "date_columns": [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
   "rows": [
-    {"branch": "14.โลตัสกาฬสินธุ์", "values": [7670, 5430, ...], "written_total": 85150}
+    {
+      "branch": "14.โลตัสกาฬสินธุ์",
+      "values": [7670, 5430, 6620, 7540, 6560, 7410, 7040, 7150, 6650, 7100, 7220, 8760],
+      "written_total": 85150
+    }
   ],
-  "written_column_totals": [30730, 24700, ...]
+  "written_column_totals": [30730, 24700, 31935, 32060, 33710, 37640, 35560, 28710, 24950, 29990, 39860, 36210]
 }`;
 
       let lastError = null;
@@ -1018,182 +1865,29 @@ Return valid JSON:
 
       rows.forEach(r => {
         const numVals = (r.values || []).filter(v => typeof v === 'number');
-        const s = numVals.reduce((a, b) => a + b, 0);
-        r.calc_total = s;
-        if (r.written_total !== null && r.written_total !== undefined) {
-          r.match = (s === r.written_total);
-          r.diff = s - r.written_total;
+        r.calc_total = numVals.reduce((acc, v) => acc + v, 0);
+
+        if (r.written_total !== null && r.written_total !== undefined && r.written_total !== '') {
+          r.diff = r.calc_total - r.written_total;
+          r.match = (r.diff === 0);
         } else {
-          r.match = null;
           r.diff = 0;
+          r.match = null;
         }
       });
 
       const colTotals = [];
-      for (let c = 0; c < numCols; c++) {
+      for (let i = 0; i < numCols; i++) {
         let colSum = 0;
         rows.forEach(r => {
-          const v = r.values ? r.values[c] : null;
-          if (typeof v === 'number') colSum += v;
+          const val = (r.values || [])[i];
+          if (typeof val === 'number') colSum += val;
         });
         colTotals.push(colSum);
       }
       data.calc_column_totals = colTotals;
       data.verification = { is_perfect: rows.every(r => r.match !== false) };
       return data;
-    }
-
-    // 1-Click Google Sheets Export
-    async function copyTableToSheets(key) {
-      const t = currentTables[key];
-      const dates = t.date_columns || [];
-      let tsv = `วันที่ / สาขา\t${dates.join('\t')}\tผลรวมคำนวณ\tยอดรวมลายมือ\n`;
-
-      t.rows.forEach(r => {
-        const vals = r.values.map(v => v === null || v === undefined ? '' : v);
-        tsv += `${r.branch}\t${vals.join('\t')}\t${r.calc_total}\t${r.written_total || ''}\n`;
-      });
-
-      tsv += `รวมรายวัน\t${t.calc_column_totals.join('\t')}\t${t.rows.reduce((a, r) => a + r.calc_total, 0)}\t\n`;
-
-      await navigator.clipboard.writeText(tsv);
-      showToast("คัดลอกตารางแล้ว! เปิด Google Sheets เพื่อวางทันที (Ctrl+V หรือ Cmd+V)", "file-spreadsheet");
-      setTimeout(() => {
-        window.open("https://sheets.new", "_blank");
-      }, 350);
-    }
-
-    // Consolidated Sheets Export (Full 22 Branches)
-    async function copyConsolidatedToSheets(type) {
-      let tsv = "";
-      let titleName = "";
-      if (type === 'sales_13_24_all') {
-        const merged = { ...SAMPLE_OCTOBER.sales_13_24_p1.rows, ...SAMPLE_OCTOBER.sales_13_24_p2.rows };
-        tsv = buildConsolidatedTSV(13, 24, merged);
-        titleName = "ยอดขาย 13-24 ต.ค. (ครบ 22 สาขา)";
-      } else if (type === 'comm_13_24_all') {
-        const merged = { ...SAMPLE_OCTOBER.comm_13_24_p1.rows, ...SAMPLE_OCTOBER.comm_13_24_p2.rows };
-        tsv = buildConsolidatedTSV(13, 24, merged);
-        titleName = "ค่าคอม 13-24 ต.ค. (ครบ 22 สาขา)";
-      } else if (type === 'sales_full_month') {
-        const merged = {};
-        KNOWN_BRANCHES.forEach(b => {
-          const p1 = (SAMPLE_OCTOBER.sales_1_12_p1.rows[b] || SAMPLE_OCTOBER.sales_1_12_p2.rows[b] || Array(12).fill("-"));
-          const p2 = (SAMPLE_OCTOBER.sales_13_24_p1.rows[b] || SAMPLE_OCTOBER.sales_13_24_p2.rows[b] || Array(12).fill("-"));
-          merged[b] = [...p1, ...p2];
-        });
-        tsv = buildConsolidatedTSV(1, 24, merged);
-        titleName = "สรุปยอดขายทั้งเดือน 1-24 ต.ค. (ครบ 22 สาขา)";
-      } else if (type === 'comm_full_month') {
-        const merged = {};
-        KNOWN_BRANCHES.forEach(b => {
-          const p1 = (SAMPLE_OCTOBER.comm_1_12_p1.rows[b] || SAMPLE_OCTOBER.comm_1_12_p2.rows[b] || Array(12).fill("-"));
-          const p2 = (SAMPLE_OCTOBER.comm_13_24_p1.rows[b] || SAMPLE_OCTOBER.comm_13_24_p2.rows[b] || Array(12).fill("-"));
-          merged[b] = [...p1, ...p2];
-        });
-        tsv = buildConsolidatedTSV(1, 24, merged);
-        titleName = "สรุปค่าคอมทั้งเดือน 1-24 ต.ค. (ครบ 22 สาขา)";
-      }
-
-      await navigator.clipboard.writeText(tsv);
-      showToast(`คัดลอก ${titleName} แล้ว! เปิด Google Sheets เพื่อวางทันที`, "file-spreadsheet");
-      setTimeout(() => {
-        window.open("https://sheets.new", "_blank");
-      }, 350);
-    }
-
-    function buildConsolidatedTSV(startD, endD, dict) {
-      const dates = [];
-      for (let d = startD; d <= endD; d++) dates.push(d);
-      let tsv = `วันที่ / สาขา\t${dates.join('\t')}\tรวมทั้งหมด\n`;
-
-      Object.entries(dict).forEach(([b, vals]) => {
-        const s = vals.filter(v => typeof v === 'number').reduce((a, b) => a + b, 0);
-        tsv += `${b}\t${vals.join('\t')}\t${s}\n`;
-      });
-      return tsv;
-    }
-
-    // Client-side Excel Download using SheetJS
-    function downloadClientExcel(key) {
-      const t = currentTables[key];
-      const dates = t.date_columns;
-      const wsData = [
-        ["วันที่ / สาขา", ...dates, "รวมทั้งหมด"]
-      ];
-
-      t.rows.forEach(r => {
-        wsData.push([r.branch, ...r.values, r.calc_total]);
-      });
-      wsData.push(["รวมทั้งหมด", ...t.calc_column_totals, t.rows.reduce((a, r) => a + r.calc_total, 0)]);
-
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.aoa_to_sheet(wsData);
-      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-      XLSX.writeFile(wb, `${t.title.replace(/\s+/g, '_')}.xlsx`);
-      showToast("ดาวน์โหลดไฟล์ Excel เรียบร้อย", "download");
-    }
-
-    // Filter Function
-    function filterTables(type) {
-      document.querySelectorAll('.tab-btn').forEach(b => {
-        b.className = 'tab-btn px-4 py-2 rounded-xl text-sm font-medium bg-white text-slate-600 hover:bg-slate-100';
-      });
-      event.target.className = 'tab-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-900 text-white';
-
-      document.querySelectorAll('.table-card').forEach(card => {
-        if (type === 'all') card.classList.remove('hidden');
-        else if (type === 'sales') card.classList.toggle('hidden', !card.classList.contains('type-sales'));
-        else if (type === 'comm') card.classList.toggle('hidden', !card.classList.contains('type-comm'));
-      });
-    }
-
-    // Provider Selector
-    function setProvider(p) {
-      currentProvider = p;
-      const btnG = document.getElementById('btn-provider-gemini');
-      const btnQ = document.getElementById('btn-provider-groq');
-      if (p === 'gemini') {
-        btnG.className = "px-3 py-1.5 rounded-lg font-semibold bg-emerald-600 text-white shadow-sm transition";
-        btnQ.className = "px-3 py-1.5 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition";
-        showToast("เลือกใช้งาน Gemini 3.5 Lite (โควตา 500 ครั้ง/วัน)", "zap");
-      } else {
-        btnQ.className = "px-3 py-1.5 rounded-lg font-semibold bg-blue-600 text-white shadow-sm transition";
-        btnG.className = "px-3 py-1.5 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition";
-        showToast("เลือกใช้งาน Groq Vision (Qwen)", "cpu");
-      }
-    }
-
-    // Settings Modal
-    function openSettingsModal() {
-      document.getElementById('modal-settings').classList.remove('hidden');
-    }
-
-    function closeSettingsModal() {
-      document.getElementById('modal-settings').classList.add('hidden');
-    }
-
-    function saveApiKeys() {
-      const gKey = document.getElementById('input-gemini-key').value.trim();
-      const qKey = document.getElementById('input-groq-key').value.trim();
-      if (gKey) localStorage.setItem('gemini_api_key', gKey);
-      if (qKey) localStorage.setItem('groq_api_key', qKey);
-      closeSettingsModal();
-      showToast("บันทึกการตั้งค่าเรียบร้อยแล้ว", "check-circle");
-    }
-
-    // Toast Function
-    function showToast(msg, iconName = 'check') {
-      const toast = document.getElementById('toast');
-      document.getElementById('toast-msg').textContent = msg;
-      const iconContainer = document.getElementById('toast-icon');
-      iconContainer.setAttribute('data-lucide', iconName);
-      lucide.createIcons();
-
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
-      }, 3500);
     }
   </script>
 </body>
