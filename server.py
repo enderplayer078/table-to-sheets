@@ -270,27 +270,45 @@ async def run_ai_ocr(image_bytes: bytes, provider: str = "gemini") -> dict:
         if not gemini_key:
             raise HTTPException(status_code=400, detail="Gemini API Key is not set")
         
-        model = "gemini-3.5-flash"
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={gemini_key}"
-        body = {
-            "contents": [{
-                "parts": [
-                    {"text": SYSTEM_PROMPT},
-                    {"inline_data": {"mime_type": "image/jpeg", "data": b64_data}}
-                ]
-            }],
-            "generationConfig": {
-                "response_mime_type": "application/json",
-                "temperature": 0.1
+        models_to_try = [
+            "gemini-3.5-flash-lite",  # 150K RPD quota, extremely fast and reliable
+            "gemini-3.6-flash",
+            "gemini-3.5-flash",
+            "gemini-flash-lite-latest"
+        ]
+        
+        last_error = None
+        for model in models_to_try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={gemini_key}"
+            body = {
+                "contents": [{
+                    "parts": [
+                        {"text": SYSTEM_PROMPT},
+                        {"inline_data": {"mime_type": "image/jpeg", "data": b64_data}}
+                    ]
+                }],
+                "generationConfig": {
+                    "response_mime_type": "application/json",
+                    "temperature": 0.1
+                }
             }
-        }
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            resp = await client.post(url, json=body)
-            if resp.status_code != 200:
-                raise HTTPException(status_code=resp.status_code, detail=f"Gemini API Error: {resp.text}")
-            text_part = resp.json()["candidates"][0]["content"]["parts"][0]["text"]
-            table_data = json.loads(text_part)
-            return cross_validate_table(table_data)
+            try:
+                async with httpx.AsyncClient(timeout=45.0) as client:
+                    resp = await client.post(url, json=body)
+                    if resp.status_code == 200:
+                        text_part = resp.json()["candidates"][0]["content"]["parts"][0]["text"]
+                        table_data = json.loads(text_part)
+                        return cross_validate_table(table_data)
+                    elif resp.status_code in (503, 429):
+                        last_error = f"{model} returned {resp.status_code}"
+                        continue
+                    else:
+                        last_error = resp.text
+            except Exception as e:
+                last_error = str(e)
+                continue
+                
+        raise HTTPException(status_code=500, detail=f"Gemini API Error across fallback models: {last_error}")
 
 @app.post("/api/upload-ocr")
 async def upload_and_process(
