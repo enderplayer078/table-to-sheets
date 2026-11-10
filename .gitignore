@@ -1,0 +1,10 @@
+.env
+*.env
+config.json
+learning_cache.json
+uploads/
+output/*.xlsx
+output/*.tsv
+__pycache__/
+*.pyc
+.DS_Store

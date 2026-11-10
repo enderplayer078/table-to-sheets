@@ -1,0 +1,290 @@
+import os
+import openpyxl
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.utils import get_column_letter
+
+# All 21 Branches in exact order
+BRANCHES = [
+    "1.บิ๊กซีเลยประตู 2",
+    "2.บิ๊กซีเลยประตู 3",
+    "3.บิ๊กซีวังสะพุง",
+    "4.ไทยวัสดุเลย",
+    "5.โลตัสชุมแพ",
+    "6.โลตัสแก้งคร้อ",
+    "7.โลตัสชัยภูมิ",
+    "8.บิ๊กซีบ้านไผ่",
+    "9.โลตัสขอนแก่น (ในเมืองประตูน้ำ)",
+    "10.โลตัสขอนแก่น (ธนาคาร)",
+    "11.โลตัสขอนแก่น KFC ประตู 2",
+    "12.บิ๊กซีร้อยเอ็ด",
+    "13.บิ๊กซีกาฬสินธุ์",
+    "14.โลตัสกาฬสินธุ์",
+    "15.โลตัสบัวขาว",
+    "16.โลตัสโพนทอง",
+    "17.ไทยวัสดุกาฬสินธุ์",
+    "18.โลตัสบ้านไผ่",
+    "19.จัตุรัสชัยภูมิ",
+    "20.โลตัสกาฬสินธุ์ (ร้านใน)",
+    "21.โลตัสพลัส อุดร"
+]
+
+# 1. ยอดขาย 1-12 ต.ค. 2569 (สาขา 1-13)
+sales_1_12_p1 = {
+    "1.บิ๊กซีเลยประตู 2": [9340, 11440, 13220, 12240, 12630, 9330, 9220, 10670, 13040, 10560, 8080, 10810],
+    "2.บิ๊กซีเลยประตู 3": [8000, 12300, 16030, 15020, 14670, 10040, 8060, 13380, 10050, 14230, 5140, 17790],
+    "3.บิ๊กซีวังสะพุง": [2410, 5530, 3370, 4220, 3590, 3530, 880, 12230, 3490, 3310, 4540, 4150],
+    "4.ไทยวัสดุเลย": [2740, 4810, 4440, 2490, 4240, 3570, 4000, 6805, 5550, 5000, 4780, 4150],
+    "5.โลตัสชุมแพ": [17040, 17540, 18510, 19950, 16380, 14410, 11480, 15250, 17470, 19150, 16190, 18370],
+    "6.โลตัสแก้งคร้อ": [5130, 6500, 6490, 7370, 15640, 5460, 6450, 6540, 7000, 6160, 5790, 13210],
+    "7.โลตัสชัยภูมิ": [3310, 3650, 3530, 2880, 4300, 3820, 3800, 2460, 2790, 3040, 2900, 3550],
+    "8.บิ๊กซีบ้านไผ่": [2410, 3340, 4160, 3440, 2280, 6885, 3110, 3180, 4080, 4060, 4120, 2300],
+    "9.โลตัสขอนแก่น (ในเมืองประตูน้ำ)": [17395, 11020, 11380, 6700, 10580, 9000, 7280, 12560, 7760, 8780, 8060, 19605],
+    "10.โลตัสขอนแก่น (ธนาคาร)": [20990, 5960, 5490, 5570, 20990, 10765, 3840, 20675, 6650, 5100, 5080, 12880],
+    "11.โลตัสขอนแก่น KFC ประตู 2": [9080, 10340, 12600, 11220, 7090, 9350, 9300, 9030, 10030, 14280, 14090, 9150],
+    "12.บิ๊กซีร้อยเอ็ด": [34580, 4360, 6250, 6770, 4240, 5770, 2380, 4615, 4680, 5420, 5210, 4180],
+    "13.บิ๊กซีกาฬสินธุ์": [5070, 5100, 7060, 4180, 5200, 4530, 4130, 4110, 5190, 7110, 5570, 4160]
+}
+
+# 2. ยอดขาย 1-12 ต.ค. 2569 (สาขา 14-21)
+sales_1_12_p2 = {
+    "14.โลตัสกาฬสินธุ์": [8410, 10060, 12000, 8730, 6730, 7890, 8650, 6010, 7260, 9210, 6200, 9000],
+    "15.โลตัสบัวขาว": [5990, 6230, 9010, 7820, 3770, 7550, 5870, 9075, 6010, 8010, 8520, 6230],
+    "16.โลตัสโพนทอง": [7940, 7320, 6510, 7330, 6020, 4360, "OFF", 1840, 5670, 5660, 4570, 5920],
+    "17.ไทยวัสดุกาฬสินธุ์": [3700, 2260, 1680, 2850, 1980, 1800, 1290, 1620, 1960, 2940, 2090, 1430],
+    "18.โลตัสบ้านไผ่": [2560, 3000, 5280, 4320, 1340, 2790, 1420, 1360, 3720, 2660, 1980, 2890],
+    "19.จัตุรัสชัยภูมิ": [5380, 3930, 4620, 4020, 4410, 4400, 4110, 3010, 4320, 4900, 2940, 4140],
+    "20.โลตัสกาฬสินธุ์ (ร้านใน)": [1120, 1440, 1630, 1360, 1230, 1120, 710, 1810, 800, 950, 1170, 1300],
+    "21.โลตัสพลัส อุดร": ["-", "-", "OPEN", 4660, "OFF", "OFF", 2180, 2520, 2980, 2330, 3240, 2560]
+}
+
+# 3. ยอดขาย 13-24 ต.ค. 2569 (สาขา 1-13)
+sales_13_24_p1 = {
+    "1.บิ๊กซีเลยประตู 2": [10630, 10120, 9240, 10380, 15480, 9200, 11330, 13470, 7740, 9190, 8890, 9010],
+    "2.บิ๊กซีเลยประตู 3": [10460, 8190, 15930, 12790, 15890, 13180, 20970, 15010, 13170, 32100, 17140, 17180],
+    "3.บิ๊กซีวังสะพุง": [2900, 2110, 9010, 4370, 4130, 4020, 4210, 4090, 4170, 11005, 6355, 3820],
+    "4.ไทยวัสดุเลย": [4520, 3000, 4000, 3630, 4250, 5000, 6850, 4240, 3180, 5000, 5480, 4570],
+    "5.โลตัสชุมแพ": [16890, 9760, 14020, 11320, 18440, 14100, 12930, 10860, 10270, 15920, 17310, 17250],
+    "6.โลตัสแก้งคร้อ": [6010, 6770, 4640, 5080, 7620, 6340, 20140, 5750, 5340, 8000, 5850, 7590],
+    "7.โลตัสชัยภูมิ": [3820, 2530, 3150, 2720, 2730, 3230, 2700, 5590, 3000, 2390, 2450, 2630],
+    "8.บิ๊กซีบ้านไผ่": [4220, 3300, 3180, 3200, 4060, 5120, 4110, 2890, 2290, 3070, 3200, 5040],
+    "9.โลตัสขอนแก่น (ในเมืองประตูน้ำ)": [6720, 5740, 8770, 7760, 10470, 5340, 4960, 9160, 7180, 16565, 7560, 7010],
+    "10.โลตัสขอนแก่น (ธนาคาร)": [11675, 5130, 21445, 5040, 4770, 5040, 20255, 9820, 4650, 32320, 11125, 5460],
+    "11.โลตัสขอนแก่น KFC ประตู 2": [11040, 9010, 8130, 9000, 14010, 12450, 6210, 8010, 9300, 10350, 11070, 12520],
+    "12.บิ๊กซีร้อยเอ็ด": [4720, 2710, 29750, 2590, 4600, 3800, 3910, 3560, 3860, 32165, 4060, 4280],
+    "13.บิ๊กซีกาฬสินธุ์": [3250, 4370, 5020, 6150, 3110, 3220, 3240, 4040, 3730, 4000, 5000, 4020]
+}
+
+# 4. ค่าคอม 1-12 ต.ค. 2569 (สาขา 1-13)
+comm_1_12_p1 = {
+    "1.บิ๊กซีเลยประตู 2": [650, 750, 850, 800, 800, 650, 650, 700, 850, 700, 600, 350],
+    "2.บิ๊กซีเลยประตู 3": [250, 450, 650, 600, 500, 350, 250, 500, 350, 550, 100, 450],
+    "3.บิ๊กซีวังสะพุง": ["-", 450, "-", 50, "-", "-", "-", "-", "-", 350, 50, 50],
+    "4.ไทยวัสดุเลย": ["-", 50, 50, "-", 50, "-", 50, 50, 100, 100, 50, 50],
+    "5.โลตัสชุมแพ": [1050, 1050, 1050, 1150, 1100, 900, 400, 1100, 1050, 1150, 1000, 1150],
+    "6.โลตัสแก้งคร้อ": [100, 150, 650, 200, 200, 100, 500, 150, 550, 150, 100, 200],
+    "7.โลตัสชัยภูมิ": ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+    "8.บิ๊กซีบ้านไผ่": ["-", "-", 50, "-", "-", "-", "-", "-", 50, 50, 50, "-"],
+    "9.โลตัสขอนแก่น (ในเมืองประตูน้ำ)": [550, 1100, 1100, 500, 450, 650, 550, 550, 550, 600, 600, 600],
+    "10.โลตัสขอนแก่น (ธนาคาร)": [100, 150, 100, 100, 100, 100, "-", 100, 150, 100, 100, 100],
+    "11.โลตัสขอนแก่น KFC ประตู 2": [300, 350, 800, 750, 200, 300, 360, 500, 350, 900, 900, 300],
+    "12.บิ๊กซีร้อยเอ็ด": [150, 50, 150, 500, 400, 100, "-", "-", "-", 100, 100, 50],
+    "13.บิ๊กซีกาฬสินธุ์": [100, 100, 200, 50, 100, 400, 50, 50, 100, 200, 100, 400]
+}
+
+# 5. ค่าคอม 1-12 ต.ค. 2569 (สาขา 14-21)
+comm_1_12_p2 = {
+    "14.โลตัสกาฬสินธุ์": [300, 350, 800, 600, 550, 200, 250, 200, 200, 650, 500, 300],
+    "15.โลตัสบัวขาว": [50, 150, 300, 200, "-", 200, 100, 50, 150, 250, 250, 150],
+    "16.โลตัสโพนทอง": [200, 200, 150, 200, 150, 50, "OFF", "-", 100, 100, 50, 100],
+    "17.ไทยวัสดุกาฬสินธุ์": ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+    "18.โลตัสบ้านไผ่": ["-", "-", 100, 400, "-", "-", "-", "-", "-", "-", "-", "-"],
+    "19.จัตุรัสชัยภูมิ": [100, 350, 50, 50, 50, 50, 50, "-", 400, 400, "-", 50],
+    "20.โลตัสกาฬสินธุ์ (ร้านใน)": ["-", "-", "-", "-", "-", "-", 350, "-", "-", "-", "-", "-"],
+    "21.โลตัสพลัส อุดร": ["-", "-", "OPEN", "-", "OFF", "OFF", "-", "-", "-", "-", "-", "-"]
+}
+
+# 6. ค่าคอม 13-24 ต.ค. 2569 (สาขา 1-13)
+comm_13_24_p1 = {
+    "1.บิ๊กซีเลยประตู 2": [700, 650, 650, 700, 950, 650, 750, 850, 550, 650, 600, 650],
+    "2.บิ๊กซีเลยประตู 3": [350, 250, 300, 300, 600, 500, 550, 400, 500, 700, 600, 600],
+    "3.บิ๊กซีวังสะพุง": ["-", "-", "-", 350, 400, 400, 400, 50, 50, "-", "-", "-"],
+    "4.ไทยวัสดุเลย": [50, 350, 50, "-", 50, 100, 50, 50, "-", 100, 100, 50],
+    "5.โลตัสชุมแพ": [1000, 650, 1050, 700, 1100, 900, 1000, 700, 700, 1050, 850, 850],
+    "6.โลตัสแก้งคร้อ": [500, 150, 50, 450, 200, 150, 100, 100, 100, 250, 450, 200],
+    "7.โลตัสชัยภูมิ": ["-", "-", "-", "-", "-", "-", "-", 400, "-", "-", "-", "-"],
+    "8.บิ๊กซีบ้านไผ่": ["-", "-", "-", "-", 50, "-", "-", "-", "-", "-", "-", "-"],
+    "9.โลตัสขอนแก่น (ในเมืองประตูน้ำ)": [500, 450, 450, 200, 700, 100, 50, 650, 200, 200, 200, 200],
+    "10.โลตัสขอนแก่น (ธนาคาร)": [100, 100, 150, 100, 50, 100, 100, 450, 400, 200, 50, 100],
+    "11.โลตัสขอนแก่น KFC ประตู 2": [400, 300, 250, 300, 900, 800, 150, 250, 300, 350, 400, 800],
+    "12.บิ๊กซีร้อยเอ็ด": [50, "-", 150, "-", 50, "-", "-", 350, "-", 100, 50, 50],
+    "13.บิ๊กซีกาฬสินธุ์": ["-", 50, 100, 50, "-", "-", "-", 50, "-", 50, 100, 50]
+}
+
+def style_sheet(ws, title, start_day, end_day, rows_data):
+    # Header title
+    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=(end_day - start_day + 3))
+    title_cell = ws.cell(row=1, column=1, value=title)
+    title_cell.font = Font(name="Tahoma", size=14, bold=True, color="1E3A8A")
+    title_cell.alignment = Alignment(horizontal="center", vertical="center")
+    ws.row_dimensions[1].height = 30
+
+    # Table headers
+    headers = ["วันที่ / สาขา"] + [str(d) for d in range(start_day, end_day + 1)] + ["รวม (Total)"]
+    header_fill = PatternFill(start_color="1E40AF", end_color="1E40AF", fill_type="solid")
+    header_font = Font(name="Tahoma", size=11, bold=True, color="FFFFFF")
+    thin_border = Border(
+        left=Side(style='thin', color='D1D5DB'),
+        right=Side(style='thin', color='D1D5DB'),
+        top=Side(style='thin', color='D1D5DB'),
+        bottom=Side(style='thin', color='D1D5DB')
+    )
+    double_bottom_border = Border(
+        left=Side(style='thin', color='D1D5DB'),
+        right=Side(style='thin', color='D1D5DB'),
+        top=Side(style='thin', color='D1D5DB'),
+        bottom=Side(style='double', color='1F2937')
+    )
+
+    ws.row_dimensions[2].height = 24
+    for col_idx, h in enumerate(headers, 1):
+        c = ws.cell(row=2, column=col_idx, value=h)
+        c.fill = header_fill
+        c.font = header_font
+        c.alignment = Alignment(horizontal="center", vertical="center")
+        c.border = thin_border
+
+    # Data rows
+    row_num = 3
+    num_cols = len(headers)
+    for branch_name, vals in rows_data.items():
+        ws.row_dimensions[row_num].height = 20
+        # Branch
+        b_cell = ws.cell(row=row_num, column=1, value=branch_name)
+        b_cell.font = Font(name="Tahoma", size=10, bold=False)
+        b_cell.alignment = Alignment(horizontal="left", vertical="center")
+        b_cell.border = thin_border
+        
+        # Zebra striping
+        row_fill = PatternFill(start_color="F9FAFB" if row_num % 2 == 0 else "FFFFFF", fill_type="solid")
+        b_cell.fill = row_fill
+
+        # Values
+        for col_idx, v in enumerate(vals, 2):
+            cell = ws.cell(row=row_num, column=col_idx)
+            cell.border = thin_border
+            cell.fill = row_fill
+            if isinstance(v, (int, float)):
+                cell.value = v
+                cell.number_format = '#,##0'
+                cell.alignment = Alignment(horizontal="right", vertical="center")
+            else:
+                cell.value = v
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+                if v == "OFF":
+                    cell.font = Font(name="Tahoma", size=10, color="EF4444", bold=True)
+                elif v == "OPEN":
+                    cell.font = Font(name="Tahoma", size=10, color="10B981", bold=True)
+
+        # Row Sum Formula
+        sum_col = num_cols
+        first_col_let = get_column_letter(2)
+        last_col_let = get_column_letter(sum_col - 1)
+        sum_cell = ws.cell(row=row_num, column=sum_col, value=f"=SUM({first_col_let}{row_num}:{last_col_let}{row_num})")
+        sum_cell.font = Font(name="Tahoma", size=10, bold=True)
+        sum_cell.number_format = '#,##0'
+        sum_cell.alignment = Alignment(horizontal="right", vertical="center")
+        sum_cell.border = thin_border
+        sum_cell.fill = PatternFill(start_color="EFF6FF", fill_type="solid")
+
+        row_num += 1
+
+    # Total row at bottom
+    total_row = row_num
+    ws.row_dimensions[total_row].height = 24
+    t_cell = ws.cell(row=total_row, column=1, value="รวมทั้งหมด (Grand Total)")
+    t_cell.font = Font(name="Tahoma", size=11, bold=True, color="1E3A8A")
+    t_cell.alignment = Alignment(horizontal="center", vertical="center")
+    t_cell.border = double_bottom_border
+    t_cell.fill = PatternFill(start_color="DBEAFE", fill_type="solid")
+
+    for col_idx in range(2, num_cols + 1):
+        col_let = get_column_letter(col_idx)
+        cell = ws.cell(row=total_row, column=col_idx, value=f"=SUM({col_let}3:{col_let}{total_row - 1})")
+        cell.font = Font(name="Tahoma", size=11, bold=True, color="1E3A8A")
+        cell.number_format = '#,##0'
+        cell.alignment = Alignment(horizontal="right", vertical="center")
+        cell.border = double_bottom_border
+        cell.fill = PatternFill(start_color="DBEAFE", fill_type="solid")
+
+    # Column widths
+    ws.column_dimensions['A'].width = 30
+    for col_idx in range(2, num_cols):
+        ws.column_dimensions[get_column_letter(col_idx)].width = 11
+    ws.column_dimensions[get_column_letter(num_cols)].width = 16
+
+def create_consolidated_excel():
+    output_dir = "/Users/macbook/Documents/antigravity/mysterious-bohr/table-to-sheets/output"
+    os.makedirs(output_dir, exist_ok=True)
+    wb_path = os.path.join(output_dir, "บัญชี_ตุลาคม_2569_ครบถ้วน.xlsx")
+    wb = openpyxl.Workbook()
+    # remove default sheet
+    wb.remove(wb.active)
+
+    # 1. ยอดขาย รวม 1-12 (21 สาขา)
+    ws1 = wb.create_sheet(title="ยอดขาย 1-12 ต.ค. (ครบ 21 สาขา)")
+    combined_sales_1_12 = {**sales_1_12_p1, **sales_1_12_p2}
+    style_sheet(ws1, "รายงานยอดขาย วันที่ 1-12 ตุลาคม 2569 (สาขา 1-21)", 1, 12, combined_sales_1_12)
+
+    # 2. ค่าคอม รวม 1-12 (21 สาขา)
+    ws2 = wb.create_sheet(title="ค่าคอม 1-12 ต.ค. (ครบ 21 สาขา)")
+    combined_comm_1_12 = {**comm_1_12_p1, **comm_1_12_p2}
+    style_sheet(ws2, "รายงานค่าคอมมิชชั่น วันที่ 1-12 ตุลาคม 2569 (สาขา 1-21)", 1, 12, combined_comm_1_12)
+
+    # 3. ยอดขาย 13-24 (13 สาขา)
+    ws3 = wb.create_sheet(title="ยอดขาย 13-24 ต.ค. (สาขา 1-13)")
+    style_sheet(ws3, "รายงานยอดขาย วันที่ 13-24 ตุลาคม 2569 (สาขา 1-13)", 13, 24, sales_13_24_p1)
+
+    # 4. ค่าคอม 13-24 (13 สาขา)
+    ws4 = wb.create_sheet(title="ค่าคอม 13-24 ต.ค. (สาขา 1-13)")
+    style_sheet(ws4, "รายงานค่าคอมมิชชั่น วันที่ 13-24 ตุลาคม 2569 (สาขา 1-13)", 13, 24, comm_13_24_p1)
+
+    # 5. ยอดขายรวมทั้งเดือน (วันที่ 1-24) สำหรับสาขา 1-13
+    ws5 = wb.create_sheet(title="ยอดขาย 1-24 ต.ค. (สาขา 1-13)")
+    sales_1_24_p1 = {}
+    for b in sales_1_12_p1:
+        sales_1_24_p1[b] = sales_1_12_p1[b] + sales_13_24_p1[b]
+    style_sheet(ws5, "สรุปยอดขาย วันที่ 1-24 ตุลาคม 2569 (สาขา 1-13)", 1, 24, sales_1_24_p1)
+
+    # 6. ค่าคอมรวมทั้งเดือน (วันที่ 1-24) สำหรับสาขา 1-13
+    ws6 = wb.create_sheet(title="ค่าคอม 1-24 ต.ค. (สาขา 1-13)")
+    comm_1_24_p1 = {}
+    for b in comm_1_12_p1:
+        comm_1_24_p1[b] = comm_1_12_p1[b] + comm_13_24_p1[b]
+    style_sheet(ws6, "สรุปค่าคอมมิชชั่น วันที่ 1-24 ตุลาคม 2569 (สาขา 1-13)", 1, 24, comm_1_24_p1)
+
+    wb.save(wb_path)
+    print(f"Generated: {wb_path}")
+
+    # Also save TSV files for 1-click Google Sheet paste
+    def save_tsv(filename, headers, data):
+        tsv_path = os.path.join(output_dir, filename)
+        with open(tsv_path, "w", encoding="utf-8") as f:
+            f.write("\t".join(headers) + "\n")
+            for b, vals in data.items():
+                row_vals = [b] + [str(v) if v is not None else "" for v in vals]
+                # calculate sum of numbers
+                s = sum(v for v in vals if isinstance(v, (int, float)))
+                row_vals.append(str(s))
+                f.write("\t".join(row_vals) + "\n")
+        print(f"Generated TSV: {tsv_path}")
+
+    # TSV exports
+    save_tsv("1_ยอดขาย_1-12_ตค_ครบ21สาขา.tsv", ["วันที่ / สาขา"] + [f"วันที่ {d}" for d in range(1, 13)] + ["รวม"], combined_sales_1_12)
+    save_tsv("2_ค่าคอม_1-12_ตค_ครบ21สาขา.tsv", ["วันที่ / สาขา"] + [f"วันที่ {d}" for d in range(1, 13)] + ["รวม"], combined_comm_1_12)
+    save_tsv("3_ยอดขาย_13-24_ตค_สาขา1-13.tsv", ["วันที่ / สาขา"] + [f"วันที่ {d}" for d in range(13, 25)] + ["รวม"], sales_13_24_p1)
+    save_tsv("4_ค่าคอม_13-24_ตค_สาขา1-13.tsv", ["วันที่ / สาขา"] + [f"วันที่ {d}" for d in range(13, 25)] + ["รวม"], comm_13_24_p1)
+    save_tsv("5_ยอดขาย_1-24_ตค_สาขา1-13.tsv", ["วันที่ / สาขา"] + [f"วันที่ {d}" for d in range(1, 25)] + ["รวม"], sales_1_24_p1)
+    save_tsv("6_ค่าคอม_1-24_ตค_สาขา1-13.tsv", ["วันที่ / สาขา"] + [f"วันที่ {d}" for d in range(1, 25)] + ["รวม"], comm_1_24_p1)
+
+if __name__ == "__main__":
+    create_consolidated_excel()
